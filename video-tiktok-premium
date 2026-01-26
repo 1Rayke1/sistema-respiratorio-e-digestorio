@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>TikTok Gold Downloader</title>
+
+  <!-- SEO (Google) -->
+  <meta name="description" content="Baixar vídeo do TikTok sem marca d’água. Downloader gratuito, rápido e fácil para salvar vídeos do TikTok em HD.">
+  <meta name="keywords" content="baixar vídeo tiktok, download tiktok, tiktok sem marca d'água, tiktok downloader">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    /* TODO O SEU CSS AQUI */
+  </style>
+</head>
+
+<body>
+
+  <div class="card">
+    <h1>TikTok Gold Downloader</h1>
+
+    <p>
+      Este site permite baixar vídeo do TikTok sem marca d’água de forma simples.
+      Ideal para criadores de conteúdo, editores e redes sociais.
+    </p>
+
+    <!-- resto do site -->
+  </div>
+
+</body>
+</html>
