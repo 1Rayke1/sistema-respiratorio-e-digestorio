@@ -60,19 +60,8 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    h1 {
-      margin: 0 0 12px;
-      font-size: 26px;
-      color: #d4af37;
-      text-shadow: 0 0 12px rgba(212,175,55,0.7);
-    }
-
-    p {
-      font-size: 14px;
-      color: #e8dca0;
-      margin-bottom: 26px;
-    }
-
+    h1 { margin: 0 0 12px; font-size: 26px; color: #d4af37; text-shadow: 0 0 12px rgba(212,175,55,0.7); }
+    p { font-size: 14px; color: #e8dca0; margin-bottom: 26px; }
     input {
       width: 100%;
       padding: 15px;
@@ -84,9 +73,7 @@
       outline: none;
       box-shadow: inset 0 0 10px rgba(212,175,55,0.15);
     }
-
     input::placeholder { color: #bfae6a; }
-
     button {
       width: 100%;
       margin-top: 26px;
@@ -101,7 +88,6 @@
       box-shadow: 0 0 20px rgba(212,175,55,0.5);
       transition: all 0.3s ease;
     }
-
     button:hover { transform: scale(1.05); }
 
     .footer {
@@ -111,7 +97,6 @@
       color: #bfae6a;
       right: 20px;
     }
-
   </style>
 </head>
 <body>
@@ -125,13 +110,24 @@
   <div class="footer">Criado por Rayke Jovino de Souza</div>
 
   <script>
-    function baixar() {
+    async function baixar() {
       const url = document.getElementById('tiktokUrl').value.trim();
       if(!url) { alert("Por favor, cole o link do TikTok."); return; }
 
-      // Redireciona para Snaptik, mantendo o usuário no seu site
-      const link = `https://snaptik.app/pt?url=${encodeURIComponent(url)}`;
-      window.open(link, "_blank"); // Abre em nova aba
+      // Chama o backend que vai processar o download
+      try {
+        const response = await fetch(`/api/download?url=${encodeURIComponent(url)}`);
+        if (!response.ok) throw new Error("Erro ao processar o download");
+
+        const blob = await response.blob();
+        const a = document.createElement("a");
+        a.href = window.URL.createObjectURL(blob);
+        a.download = "video-tiktok.mp4";
+        a.click();
+      } catch (err) {
+        alert("Não foi possível baixar o vídeo. Tente outro link.");
+        console.error(err);
+      }
     }
   </script>
 </body>
