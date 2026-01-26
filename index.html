@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Baixar Vídeo do TikTok</title>
+  <title>Baixar vídeo do TikTok</title>
 </head>
 <body>
 
@@ -17,15 +17,15 @@
 function baixar() {
   const url = document.getElementById("link").value;
 
-  if (!url.includes("tiktok.com")) {
+  if (!url || !url.includes("tiktok.com")) {
     alert("Cole um link válido do TikTok");
     return;
   }
 
-  // 🔴 TROQUE AQUI pelo seu link encurtado
-  const monetizado = "https://LINK_ENCURTADO_AQUI";
+  // SITE DE DOWNLOAD (FUNCIONA)
+  const destino = "https://ssstik.io/pt";
 
-  window.open(monetizado + "?url=" + encodeURIComponent(url), "_blank");
+  window.open(destino, "_blank");
 }
 </script>
 
