@@ -8,64 +8,76 @@
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+      font-family: 'Arial', sans-serif;
+      background: radial-gradient(circle at top, #1a1a1a, #000);
       height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
+      color: #f5e6b3;
     }
 
     .box {
-      background: #fff;
-      padding: 30px;
-      border-radius: 16px;
+      background: linear-gradient(145deg, #111, #1b1b1b);
+      padding: 32px;
+      border-radius: 20px;
       width: 100%;
       max-width: 420px;
       text-align: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      box-shadow: 0 0 25px rgba(212,175,55,0.25);
+      border: 1px solid rgba(212,175,55,0.35);
     }
 
     h1 {
       margin-bottom: 10px;
-      font-size: 22px;
+      font-size: 24px;
+      color: #d4af37;
+      letter-spacing: 0.5px;
     }
 
     p {
-      color: #555;
+      color: #e6d28c;
       font-size: 14px;
     }
 
     input {
       width: 100%;
       padding: 14px;
-      margin-top: 20px;
-      border-radius: 10px;
-      border: 1px solid #ccc;
+      margin-top: 22px;
+      border-radius: 12px;
+      border: 1px solid rgba(212,175,55,0.5);
+      background: #000;
+      color: #f5e6b3;
       font-size: 14px;
       outline: none;
     }
 
+    input::placeholder {
+      color: #bfae6a;
+    }
+
     button {
       width: 100%;
-      margin-top: 20px;
-      padding: 14px;
+      margin-top: 24px;
+      padding: 15px;
       border: none;
-      border-radius: 12px;
-      background: #2563eb;
-      color: #fff;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #d4af37, #b8962e);
+      color: #000;
       font-size: 16px;
+      font-weight: bold;
       cursor: pointer;
+      box-shadow: 0 0 15px rgba(212,175,55,0.6);
     }
 
     button:hover {
-      background: #1e40af;
+      box-shadow: 0 0 25px rgba(212,175,55,0.9);
     }
 
     .footer {
-      margin-top: 15px;
+      margin-top: 18px;
       font-size: 12px;
-      color: #888;
+      color: #cbbd7a;
     }
   </style>
 </head>
@@ -80,7 +92,7 @@
     <button onclick="baixar()">Baixar vídeo</button>
 
     <div class="footer">
-      Sem marca d’água • Rápido • Grátis
+      Premium • Sem marca d’água • Grátis
     </div>
   </div>
 
