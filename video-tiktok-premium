@@ -1,32 +1,21 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <title>TikTok Gold Downloader</title>
+import fetch from "node-fetch";
 
-  <!-- SEO (Google) -->
-  <meta name="description" content="Baixar vídeo do TikTok sem marca d’água. Downloader gratuito, rápido e fácil para salvar vídeos do TikTok em HD.">
-  <meta name="keywords" content="baixar vídeo tiktok, download tiktok, tiktok sem marca d'água, tiktok downloader">
+export default async function handler(req, res) {
+  const { url } = req.query;
+  if (!url) return res.status(400).send("URL do TikTok é obrigatória");
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  try {
+    // Aqui usamos Snaptik para pegar o vídeo
+    const apiUrl = `https://snaptik.app/abc?url=${encodeURIComponent(url)}`; 
+    // Nota: 'abc' é só um exemplo, o endpoint real precisa ser confirmado
+    const response = await fetch(apiUrl);
+    if(!response.ok) throw new Error("Erro no Snaptik");
 
-  <style>
-    /* TODO O SEU CSS AQUI */
-  </style>
-</head>
-
-<body>
-
-  <div class="card">
-    <h1>TikTok Gold Downloader</h1>
-
-    <p>
-      Este site permite baixar vídeo do TikTok sem marca d’água de forma simples.
-      Ideal para criadores de conteúdo, editores e redes sociais.
-    </p>
-
-    <!-- resto do site -->
-  </div>
-
-</body>
-</html>
+    const buffer = await response.arrayBuffer();
+    res.setHeader("Content-Type", "video/mp4");
+    res.send(Buffer.from(buffer));
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Erro ao processar o download");
+  }
+}
