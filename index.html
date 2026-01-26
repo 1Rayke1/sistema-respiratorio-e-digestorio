@@ -2,32 +2,101 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Baixar vídeo do TikTok</title>
+  <title>Baixar Vídeo do TikTok</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .box {
+      background: #fff;
+      padding: 30px;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      margin-bottom: 10px;
+      font-size: 22px;
+    }
+
+    p {
+      color: #555;
+      font-size: 14px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      margin-top: 20px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: #2563eb;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #1e40af;
+    }
+
+    .footer {
+      margin-top: 15px;
+      font-size: 12px;
+      color: #888;
+    }
+  </style>
 </head>
 <body>
 
-<h1>Baixar vídeo do TikTok</h1>
-<p>Cole o link do vídeo abaixo</p>
+  <div class="box">
+    <h1>Baixar vídeo do TikTok</h1>
+    <p>Cole o link do vídeo abaixo</p>
 
-<input id="link" type="text" placeholder="Cole o link do TikTok" style="width:320px;">
-<br><br>
-<button onclick="baixar()">Baixar vídeo</button>
+    <input id="link" type="text" placeholder="https://www.tiktok.com/...">
 
-<script>
-function baixar() {
-  const url = document.getElementById("link").value;
+    <button onclick="baixar()">Baixar vídeo</button>
 
-  if (!url || !url.includes("tiktok.com")) {
-    alert("Cole um link válido do TikTok");
-    return;
-  }
+    <div class="footer">
+      Sem marca d’água • Rápido • Grátis
+    </div>
+  </div>
 
-  // SITE DE DOWNLOAD (FUNCIONA)
-  const destino = "https://ssstik.io/pt";
+  <script>
+    function baixar() {
+      const url = document.getElementById("link").value;
 
-  window.open(destino, "_blank");
-}
-</script>
+      if (!url || !url.includes("tiktok.com")) {
+        alert("Cole um link válido do TikTok");
+        return;
+      }
+
+      const destino = "https://ssstik.io/pt";
+      window.open(destino, "_blank");
+    }
+  </script>
 
 </body>
 </html>
