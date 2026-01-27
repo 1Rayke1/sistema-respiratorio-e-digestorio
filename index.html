@@ -1,3 +1,15 @@
+<input type="text" id="tiktokUrl" placeholder="Cole o link do TikTok">
+<button onclick="abrirSnaptik()">Baixar vídeo</button>
+
+<script>
+function abrirSnaptik() {
+  const url = document.getElementById('tiktokUrl').value;
+  if (!url) return alert('Cole um link!');
+
+  // Abre o Snaptik com o link do TikTok
+  window.open(`https://snaptik.app/pt?url=${encodeURIComponent(url)}`, "_blank");
+}
+</script>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
