@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0b1220">
+<title>Anatomia Humana — Desafio de Identificação</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ══════════════ TELA INICIAL ══════════════ -->
+  <section id="screen-home" class="screen active">
+    <header class="home-hero">
+      <div class="hero-emoji">🧠</div>
+      <h1>ANATOMIA HUMANA</h1>
+      <p class="hero-sub">DESAFIO DE IDENTIFICAÇÃO</p>
+      <p class="hero-tag">Treine para sua prova prática</p>
+    </header>
+
+    <div class="stats-row" id="home-stats">
+      <div class="stat-card">
+        <div class="stat-value" id="stat-best">0</div>
+        <div class="stat-label">🏆 Melhor pontuação</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-answered">0</div>
+        <div class="stat-label">❓ Questões respondidas</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-accuracy">—</div>
+        <div class="stat-label">🎯 Taxa de acertos</div>
+      </div>
+    </div>
+
+    <nav class="menu">
+      <button class="menu-btn resp" onclick="App.startTreino('resp')">
+        <span class="mb-icon">🫁</span>
+        <span class="mb-text"><strong>SISTEMA RESPIRATÓRIO</strong><small>Treino de identificação</small></span>
+        <span class="mb-arrow">›</span>
+      </button>
+      <button class="menu-btn dig" onclick="App.startTreino('dig')">
+        <span class="mb-icon">🍽️</span>
+        <span class="mb-text"><strong>SISTEMA DIGESTÓRIO</strong><small>Treino de identificação</small></span>
+        <span class="mb-arrow">›</span>
+      </button>
+      <button class="menu-btn desafio" onclick="App.openDesafioSetup()">
+        <span class="mb-icon">🔥</span>
+        <span class="mb-text"><strong>MODO DESAFIO</strong><small>Prova prática · 20 questões mistas</small></span>
+        <span class="mb-arrow">›</span>
+      </button>
+      <button class="menu-btn aprender" onclick="App.openLearnSystems()">
+        <span class="mb-icon">📚</span>
+        <span class="mb-text"><strong>MODO APRENDER</strong><small>Explore os diagramas com nomes</small></span>
+        <span class="mb-arrow">›</span>
+      </button>
+      <button class="menu-btn revisar" onclick="App.openReview()">
+        <span class="mb-icon">🔥</span>
+        <span class="mb-text"><strong>PRECISO REVISAR</strong><small id="review-count-label">Estruturas que você mais errou</small></span>
+        <span class="mb-arrow">›</span>
+      </button>
+    </nav>
+
+    <footer class="home-foot">Conteúdo baseado nos PDFs: SISTEMA RESPIRATÓRIO e SISTEMA DIGESTÓRIO</footer>
+  </section>
+
+  <!-- ══════════════ MODO APRENDER: SISTEMAS ══════════════ -->
+  <section id="screen-learn-systems" class="screen">
+    <header class="topbar">
+      <button class="back-btn" onclick="App.goHome()">‹</button>
+      <h2>📚 Modo Aprender</h2>
+    </header>
+    <p class="screen-hint">Escolha um sistema para explorar as estruturas por região.</p>
+    <div class="big-choice">
+      <button class="choice-card resp" onclick="App.openLearnRegions('resp')">
+        <span class="cc-icon">🫁</span>
+        <strong>SISTEMA RESPIRATÓRIO</strong>
+        <small id="learn-count-resp"></small>
+      </button>
+      <button class="choice-card dig" onclick="App.openLearnRegions('dig')">
+        <span class="cc-icon">🍽️</span>
+        <strong>SISTEMA DIGESTÓRIO</strong>
+        <small id="learn-count-dig"></small>
+      </button>
+    </div>
+  </section>
+
+  <!-- ══════════════ MODO APRENDER: REGIÕES ══════════════ -->
+  <section id="screen-learn-regions" class="screen">
+    <header class="topbar">
+      <button class="back-btn" onclick="App.openLearnSystems()">‹</button>
+      <h2 id="learn-regions-title">Regiões</h2>
+    </header>
+    <div class="region-list" id="region-list"></div>
+  </section>
+
+  <!-- ══════════════ MODO APRENDER: VISUALIZAÇÃO ══════════════ -->
+  <section id="screen-learn-view" class="screen">
+    <header class="topbar">
+      <button class="back-btn" id="learn-back-btn">‹</button>
+      <h2 id="learn-view-title">Região</h2>
+    </header>
+    <div class="diagram-panel" id="learn-diagram"></div>
+    <div class="learn-info-card" id="learn-info">
+      <div class="li-top">
+        <span class="li-num" id="learn-num">1</span>
+        <div class="li-names">
+          <div class="li-name" id="learn-name">—</div>
+          <div class="li-desc" id="learn-desc"></div>
+        </div>
+      </div>
+      <button class="flag-btn" id="learn-flag" onclick="App.toggleFlag()">🚩 Preciso revisar</button>
+    </div>
+    <div class="learn-nav">
+      <button class="nav-btn" onclick="App.learnPrev()">‹ Anterior</button>
+      <span class="learn-counter" id="learn-counter">1/10</span>
+      <button class="nav-btn primary" onclick="App.learnNext()">Próxima ›</button>
+    </div>
+  </section>
+
+  <!-- ══════════════ SETUP DO DESAFIO ══════════════ -->
+  <section id="screen-desafio-setup" class="screen">
+    <header class="topbar">
+      <button class="back-btn" onclick="App.goHome()">‹</button>
+      <h2>🔥 Modo Desafio</h2>
+    </header>
+    <div class="setup-card">
+      <div class="setup-icon">💀</div>
+      <h3>Prova Prática Simulada</h3>
+      <ul class="setup-rules">
+        <li>📝 20 questões aleatórias</li>
+        <li>🫁🍽️ Respiratório + Digestório misturados</li>
+        <li>🔢 4 alternativas por questão</li>
+        <li>🚫 Sem dicas · sem segunda tentativa</li>
+        <li>⭐ 10 pontos por acerto</li>
+      </ul>
+      <label class="toggle-row">
+        <span>⏱️ Cronômetro</span>
+        <input type="checkbox" id="timer-toggle" checked>
+        <span class="toggle-ui"></span>
+      </label>
+      <button class="cta-btn" onclick="App.startDesafio()">COMEÇAR PROVA</button>
+    </div>
+  </section>
+
+  <!-- ══════════════ QUIZ (TREINO / DESAFIO / REVISÃO) ══════════════ -->
+  <section id="screen-quiz" class="screen">
+    <header class="quiz-top">
+      <button class="back-btn" onclick="App.quitQuiz()">✕</button>
+      <div class="quiz-meta">
+        <span class="quiz-mode-badge" id="quiz-mode-badge">TREINO</span>
+        <span class="quiz-timer" id="quiz-timer" hidden>⏱ 00:00</span>
+      </div>
+      <div class="quiz-score" id="quiz-score">⭐ 0</div>
+    </header>
+    <div class="progress-track"><div class="progress-fill" id="quiz-progress"></div></div>
+    <div class="quiz-counter" id="quiz-counter">Questão 1 de 10</div>
+
+    <div class="diagram-panel quiz-diagram" id="quiz-diagram"></div>
+
+    <p class="quiz-question">Qual é o nome desta estrutura?</p>
+
+    <div class="options" id="quiz-options"></div>
+
+    <div class="feedback" id="quiz-feedback" hidden>
+      <div class="fb-banner" id="fb-banner"></div>
+      <div class="fb-detail" id="fb-detail"></div>
+      <div class="fb-actions" id="fb-actions"></div>
+    </div>
+  </section>
+
+  <!-- ══════════════ RESULTADOS ══════════════ -->
+  <section id="screen-results" class="screen">
+    <div class="results-card">
+      <div class="results-trophy" id="res-emoji">🏆</div>
+      <h2>RESULTADO</h2>
+      <div class="res-grade" id="res-grade">EXCELENTE</div>
+      <div class="res-grid">
+        <div class="res-item"><span id="res-correct">0</span><small>Acertos</small></div>
+        <div class="res-item"><span id="res-wrong">0</span><small>Erros</small></div>
+        <div class="res-item"><span id="res-pct">0%</span><small>Aproveitamento</small></div>
+        <div class="res-item"><span id="res-score">0</span><small>Pontos</small></div>
+      </div>
+      <div class="res-time" id="res-time" hidden></div>
+      <div class="res-newbest" id="res-newbest" hidden>🎉 Novo recorde de pontuação!</div>
+      <div class="res-wrong-list-wrap" id="res-wrong-wrap" hidden>
+        <h3>❌ Estruturas para revisar</h3>
+        <div class="res-wrong-list" id="res-wrong-list"></div>
+      </div>
+      <div class="res-actions">
+        <button class="cta-btn" id="res-retry-btn">🔄 Jogar novamente</button>
+        <button class="nav-btn wide" onclick="App.goHome()">🏠 Menu principal</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ PRECISO REVISAR ══════════════ -->
+  <section id="screen-review" class="screen">
+    <header class="topbar">
+      <button class="back-btn" onclick="App.goHome()">‹</button>
+      <h2>🔥 Preciso Revisar</h2>
+    </header>
+    <p class="screen-hint">Estruturas que você mais errou ou marcou para revisão. Elas aparecem com mais frequência nos quizzes.</p>
+    <button class="cta-btn compact" id="review-train-btn" onclick="App.startRevisao()">🎯 Treinar estas estruturas</button>
+    <div class="review-list" id="review-list"></div>
+    <div class="review-empty" id="review-empty" hidden>
+      <div class="re-icon">✨</div>
+      <p>Nada por aqui ainda!<br>Jogue os modos de treino ou marque estruturas com 🚩 no Modo Aprender.</p>
+    </div>
+  </section>
+
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
