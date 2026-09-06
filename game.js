@@ -1,26 +1,729 @@
-// ============================================================
-// ANATOMIA EM JOGO
-// SISTEMA RESPIRATÓRIO E SISTEMA DIGESTÓRIO
-// Desenvolvedor: Rayke Jovino de Souza
-// ============================================================
+/* ============================================================
+   ANATOMIA EM JOGO
+   Sistema Respiratório + Sistema Digestório
+   Base anatômica: pranchas do PDF fornecido
+   Desenvolvedor: Rayke Jovino de Souza
+   ============================================================ */
 
-let sistemaAtual = null;
-let modoAtual = null;
-let perguntas = [];
-let indiceAtual = 0;
+"use strict";
+
+/* ============================================================
+   CONFIGURAÇÕES
+   ============================================================ */
+
+const TOTAL_ALTERNATIVAS = 4;
+
+let sistemaAtual = "respiratorio";
+let modoAtual = "estudar";
+let perguntasJogo = [];
+let indicePergunta = 0;
 let pontuacao = 0;
-let respondeu = false;
+let respondida = false;
+let historicoPerguntas = [];
+
+/* ============================================================
+   ESTRUTURAS DO SISTEMA RESPIRATÓRIO
+   PÁGINAS 2–26 DO PDF
+   ============================================================ */
+
+const respiratorio = [
+
+  /* PÁGINA 2 */
+  { id:"resp-01", nome:"Raiz do nariz", pagina:2,
+    funcao:"É a porção superior do nariz externo, situada próxima à região de união com a face e relacionada à sustentação e posição do nariz." },
+
+  { id:"resp-02", nome:"Dorso do nariz", pagina:2,
+    funcao:"Forma a parte alongada do nariz externo entre a raiz e o ápice, contribuindo para a configuração externa das vias aéreas superiores." },
+
+  { id:"resp-03", nome:"Ápice do nariz", pagina:2,
+    funcao:"Corresponde à extremidade anterior do nariz externo, participando da configuração da entrada das vias aéreas superiores." },
+
+  { id:"resp-04", nome:"Nariz externo", pagina:2,
+    funcao:"Constitui a porção externa inicial das vias respiratórias e participa da entrada e condicionamento inicial do ar." },
+
+  /* PÁGINA 3 */
+  { id:"resp-05", nome:"Asas do nariz", pagina:3,
+    funcao:"Formam as porções laterais móveis do nariz e ajudam a delimitar as narinas." },
+
+  { id:"resp-06", nome:"Base do nariz", pagina:3,
+    funcao:"Forma a porção inferior do nariz externo e está relacionada diretamente às narinas." },
+
+  { id:"resp-07", nome:"Narinas", pagina:3,
+    funcao:"São as aberturas externas pelas quais o ar entra e sai do nariz." },
+
+  /* PÁGINA 4 */
+  { id:"resp-08", nome:"Cavidade nasal", pagina:4,
+    funcao:"Conduz o ar e participa de seu aquecimento, umidificação e filtragem antes que ele avance pelas vias respiratórias." },
+
+  { id:"resp-09", nome:"Abertura piriforme", pagina:4,
+    funcao:"É a abertura óssea anterior da cavidade nasal, delimitando a entrada estrutural da cavidade nasal." },
+
+  { id:"resp-10", nome:"Coanas", pagina:4,
+    funcao:"São as aberturas posteriores da cavidade nasal que estabelecem comunicação com a nasofaringe." },
+
+  /* PÁGINA 5 */
+  { id:"resp-11", nome:"Concha nasal superior", pagina:5,
+    funcao:"Projeta-se na cavidade nasal e ajuda a aumentar a superfície de contato do ar com a mucosa." },
+
+  { id:"resp-12", nome:"Concha nasal média", pagina:5,
+    funcao:"Participa do direcionamento do fluxo de ar e aumenta a área de contato do ar com a mucosa nasal." },
+
+  { id:"resp-13", nome:"Concha nasal inferior", pagina:5,
+    funcao:"Contribui para o direcionamento do fluxo de ar e para o condicionamento do ar dentro da cavidade nasal." },
+
+  /* PÁGINA 6 */
+  { id:"resp-14", nome:"Meato nasal superior", pagina:6,
+    funcao:"É um espaço situado inferiormente à concha nasal superior, funcionando como passagem dentro da cavidade nasal." },
+
+  { id:"resp-15", nome:"Meato nasal médio", pagina:6,
+    funcao:"É uma passagem da cavidade nasal associada à drenagem de estruturas dos seios paranasais." },
+
+  { id:"resp-16", nome:"Meato nasal inferior", pagina:6,
+    funcao:"É a passagem localizada inferiormente à concha nasal inferior e recebe a abertura do ducto nasolacrimal." },
+
+  /* PÁGINA 7 */
+  { id:"resp-17", nome:"Epitélio olfatório", pagina:7,
+    funcao:"Contém células receptoras especializadas capazes de detectar estímulos químicos relacionados ao olfato." },
+
+  { id:"resp-18", nome:"Nervo olfatório", pagina:7,
+    funcao:"Conduz informações relacionadas ao olfato desde os receptores olfatórios em direção ao sistema nervoso central." },
+
+  { id:"resp-19", nome:"Ducto nasolacrimal", pagina:7,
+    funcao:"Conduz as lágrimas da região ocular para a cavidade nasal." },
+
+  /* PÁGINA 9 */
+  { id:"resp-20", nome:"Seio frontal", pagina:9,
+    funcao:"É uma cavidade pneumática localizada no osso frontal e integra os seios paranasais." },
+
+  { id:"resp-21", nome:"Seio esfenoidal", pagina:9,
+    funcao:"É uma cavidade pneumática do osso esfenoide e integra os seios paranasais." },
+
+  { id:"resp-22", nome:"Seios etmoidais", pagina:9,
+    funcao:"São conjuntos de pequenas cavidades pneumáticas do etmóide que integram os seios paranasais." },
+
+  { id:"resp-23", nome:"Seios maxilares", pagina:9,
+    funcao:"São cavidades pneumáticas localizadas nas maxilas e fazem parte dos seios paranasais." },
+
+  /* PÁGINA 10 */
+  { id:"resp-24", nome:"Tórus tubal", pagina:10,
+    funcao:"É uma elevação da mucosa da nasofaringe relacionada à região da abertura da tuba auditiva." },
+
+  { id:"resp-25", nome:"Óstio faríngeo da tuba auditiva", pagina:10,
+    funcao:"É a abertura da tuba auditiva na faringe e participa da comunicação entre a nasofaringe e a orelha média." },
+
+  { id:"resp-26", nome:"Faringe", pagina:10,
+    funcao:"É um tubo muscular comum aos sistemas respiratório e digestório, participando da condução do ar e do alimento." },
+
+  /* PÁGINA 11 */
+  { id:"resp-27", nome:"Nasofaringe", pagina:11,
+    funcao:"É a porção superior da faringe, situada posteriormente à cavidade nasal, relacionada principalmente à passagem do ar." },
+
+  { id:"resp-28", nome:"Orofaringe", pagina:11,
+    funcao:"É a porção da faringe situada posteriormente à cavidade oral, participando da passagem de ar e alimento." },
+
+  { id:"resp-29", nome:"Laringofaringe", pagina:11,
+    funcao:"É a porção inferior da faringe que conduz o conteúdo em direção à laringe ou ao esôfago." },
+
+  /* PÁGINA 12 */
+  { id:"resp-30", nome:"Tonsilas faríngeas", pagina:12,
+    funcao:"Participam da defesa imunológica das vias aéreas superiores por meio do tecido linfoide." },
+
+  /* PÁGINA 13 */
+  { id:"resp-31", nome:"Epiglote", pagina:13,
+    funcao:"Atua como uma estrutura protetora das vias aéreas durante a deglutição, ajudando a evitar a entrada de alimento na laringe." },
+
+  { id:"resp-32", nome:"Prega vestibular", pagina:13,
+    funcao:"É uma prega da laringe localizada superiormente à prega vocal e participa da proteção das estruturas mais profundas da laringe." },
+
+  { id:"resp-33", nome:"Prega vocal", pagina:13,
+    funcao:"Participa diretamente da produção da voz por meio da vibração quando o ar passa pela laringe." },
+
+  { id:"resp-34", nome:"Laringe", pagina:13,
+    funcao:"Conduz o ar, participa da produção da voz e protege as vias respiratórias inferiores durante a deglutição." },
+
+  /* PÁGINA 15 */
+  { id:"resp-35", nome:"Cartilagem epiglótica", pagina:15,
+    funcao:"Dá sustentação à epiglote e participa do mecanismo de proteção das vias aéreas durante a deglutição." },
+
+  { id:"resp-36", nome:"Cartilagem da tireoide", pagina:15,
+    funcao:"É uma importante cartilagem estrutural da laringe que protege e sustenta suas estruturas internas." },
+
+  { id:"resp-37", nome:"Cartilagem cricóide", pagina:15,
+    funcao:"Forma um anel cartilaginoso da laringe e mantém a sustentação da via aérea." },
+
+  /* PÁGINA 16 */
+  { id:"resp-38", nome:"Cartilagem corniculada", pagina:16,
+    funcao:"É uma pequena cartilagem da laringe relacionada à sustentação das pregas e estruturas da região posterior da entrada laríngea." },
+
+  { id:"resp-39", nome:"Cartilagem aritenóide", pagina:16,
+    funcao:"Participa do movimento e posicionamento das pregas vocais, sendo importante para a fonação." },
+
+  /* PÁGINA 17 */
+  { id:"resp-40", nome:"Anéis cartilaginosos", pagina:17,
+    funcao:"Mantêm a traqueia aberta e evitam seu colabamento durante a passagem do ar." },
+
+  { id:"resp-41", nome:"Ligamentos anulares", pagina:17,
+    funcao:"Unem os anéis cartilaginosos da traqueia e contribuem para sua flexibilidade." },
+
+  { id:"resp-42", nome:"Parede posterior da traqueia", pagina:17,
+    funcao:"É uma região posterior membranosa da traqueia relacionada ao esôfago e permite certa flexibilidade durante a passagem do alimento." },
+
+  { id:"resp-43", nome:"Carina", pagina:17,
+    funcao:"É a região de bifurcação inferior da traqueia onde ocorre a divisão em brônquios principais." },
+
+  { id:"resp-44", nome:"Traqueia", pagina:17,
+    funcao:"Conduz o ar entre a laringe e os brônquios e permanece aberta graças à sua sustentação cartilaginosa." },
+
+  /* PÁGINA 18 */
+  { id:"resp-45", nome:"Brônquio principal esquerdo", pagina:18,
+    funcao:"Conduz o ar da traqueia para o pulmão esquerdo." },
+
+  { id:"resp-46", nome:"Brônquio principal direito", pagina:18,
+    funcao:"Conduz o ar da traqueia para o pulmão direito." },
+
+  { id:"resp-47", nome:"Brônquio lobar superior direito", pagina:18,
+    funcao:"Conduz o ar para o lobo superior do pulmão direito." },
+
+  { id:"resp-48", nome:"Brônquio lobar médio direito", pagina:18,
+    funcao:"Conduz o ar para o lobo médio do pulmão direito." },
+
+  { id:"resp-49", nome:"Brônquio lobar inferior direito", pagina:18,
+    funcao:"Conduz o ar para o lobo inferior do pulmão direito." },
+
+  /* PÁGINA 20 */
+  { id:"resp-50", nome:"Brônquio lobar superior esquerdo", pagina:20,
+    funcao:"Conduz o ar para o lobo superior do pulmão esquerdo." },
+
+  { id:"resp-51", nome:"Brônquio lobar inferior esquerdo", pagina:20,
+    funcao:"Conduz o ar para o lobo inferior do pulmão esquerdo." },
+
+  /* PÁGINA 21 */
+  { id:"resp-52", nome:"Brônquios segmentares", pagina:21,
+    funcao:"Distribuem o ar para os segmentos broncopulmonares." },
+
+  { id:"resp-53", nome:"Bronquíolos", pagina:21,
+    funcao:"São ramificações menores das vias respiratórias que conduzem o ar em direção às regiões respiratórias do pulmão." },
+
+  /* PÁGINA 22 */
+  { id:"resp-54", nome:"Lobo superior esquerdo", pagina:22,
+    funcao:"É uma divisão anatômica do pulmão esquerdo que recebe ar pelo brônquio lobar superior esquerdo." },
+
+  { id:"resp-55", nome:"Lobo inferior esquerdo", pagina:22,
+    funcao:"É uma divisão anatômica do pulmão esquerdo que recebe ar pelo brônquio lobar inferior esquerdo." },
+
+  { id:"resp-56", nome:"Fissura oblíqua esquerda", pagina:22,
+    funcao:"É uma fissura que separa os lobos superior e inferior do pulmão esquerdo." },
+
+  /* PÁGINA 23 */
+  { id:"resp-57", nome:"Lobo superior direito", pagina:23,
+    funcao:"É uma divisão do pulmão direito que recebe ar pelo brônquio lobar superior direito." },
+
+  { id:"resp-58", nome:"Fissura horizontal", pagina:23,
+    funcao:"É uma fissura do pulmão direito que separa o lobo superior do lobo médio." },
+
+  { id:"resp-59", nome:"Lobo médio", pagina:23,
+    funcao:"É o lobo exclusivo do pulmão direito, situado entre as fissuras horizontal e oblíqua." },
+
+  { id:"resp-60", nome:"Fissura oblíqua direita", pagina:23,
+    funcao:"Separa o lobo inferior dos lobos superior e médio no pulmão direito." },
+
+  { id:"resp-61", nome:"Lobo inferior direito", pagina:23,
+    funcao:"É a divisão inferior do pulmão direito e recebe ar pelo brônquio lobar inferior direito." },
+
+  /* PÁGINA 24 */
+  { id:"resp-62", nome:"Base do pulmão", pagina:24,
+    funcao:"É a superfície inferior do pulmão, relacionada ao diafragma." },
+
+  { id:"resp-63", nome:"Ápice do pulmão", pagina:24,
+    funcao:"É a extremidade superior do pulmão, projetando-se superiormente em direção à região da abertura superior do tórax." },
+
+  /* PÁGINA 25 */
+  { id:"resp-64", nome:"Face costal", pagina:25,
+    funcao:"É a superfície pulmonar convexa relacionada principalmente às costelas e à parede torácica." },
+
+  { id:"resp-65", nome:"Face diafragmática", pagina:25,
+    funcao:"É a superfície inferior do pulmão que repousa sobre o diafragma." },
+
+  { id:"resp-66", nome:"Face medial", pagina:25,
+    funcao:"É a superfície pulmonar voltada para o mediastino e que apresenta estruturas relacionadas à entrada e saída de vasos e brônquios." },
+
+  /* PÁGINA 26 */
+  { id:"resp-67", nome:"Hilo pulmonar", pagina:26,
+    funcao:"É a região da face medial por onde passam estruturas como brônquios, vasos sanguíneos, vasos linfáticos e nervos." }
+];
 
 
-// ============================================================
-// EMBARALHAR
-// ============================================================
+/* ============================================================
+   ESTRUTURAS DO SISTEMA DIGESTÓRIO
+   PÁGINAS 28–45 DO PDF
+   ============================================================ */
 
-function embaralhar(lista) {
-  const copia = [...lista];
+const digestorio = [
+
+  /* PÁGINA 28 */
+  { id:"dig-01", nome:"Lábio superior", pagina:28,
+    funcao:"Participa do fechamento da boca, da apreensão do alimento e da formação da rima labial." },
+
+  { id:"dig-02", nome:"Lábio inferior", pagina:28,
+    funcao:"Participa do fechamento da boca, da apreensão do alimento e da formação da rima labial." },
+
+  { id:"dig-03", nome:"Vestíbulo bucal", pagina:28,
+    funcao:"É o espaço entre os lábios ou bochechas e as arcadas dentárias." },
+
+  { id:"dig-04", nome:"Arcada dentária", pagina:28,
+    funcao:"Os dentes participam da apreensão e fragmentação mecânica dos alimentos durante a mastigação." },
+
+  { id:"dig-05", nome:"Cavidade bucal", pagina:28,
+    funcao:"Recebe o alimento e participa da mastigação, mistura com saliva, formação do bolo alimentar e início da digestão." },
+
+  /* PÁGINA 29 */
+  { id:"dig-06", nome:"Língua — musculatura intrínseca", pagina:29,
+    funcao:"Permite alterações no formato da língua, sendo importante para manipulação do alimento e articulação da fala." },
+
+  { id:"dig-07", nome:"Língua — musculatura extrínseca", pagina:29,
+    funcao:"Movimenta a língua em relação às estruturas vizinhas, participando da manipulação do alimento e da deglutição." },
+
+  { id:"dig-08", nome:"Palato duro", pagina:29,
+    funcao:"Forma a porção anterior rígida do teto da boca e separa a cavidade oral da cavidade nasal." },
+
+  { id:"dig-09", nome:"Palato mole", pagina:29,
+    funcao:"É uma estrutura muscular móvel que participa do fechamento da comunicação com a nasofaringe durante a deglutição." },
+
+  { id:"dig-10", nome:"Úvula palatina", pagina:29,
+    funcao:"Participa dos movimentos do palato mole e auxilia no fechamento da comunicação com a nasofaringe durante a deglutição." },
+
+  { id:"dig-11", nome:"Rima labial", pagina:29,
+    funcao:"É a abertura delimitada pelos lábios, permitindo comunicação entre o exterior e a cavidade bucal." },
+
+  /* PÁGINA 30 */
+  { id:"dig-12", nome:"Faringe", pagina:30,
+    funcao:"Participa da passagem do alimento e do ar, funcionando como região comum aos sistemas digestório e respiratório." },
+
+  { id:"dig-13", nome:"Nasofaringe", pagina:30,
+    funcao:"É a porção superior da faringe relacionada principalmente à passagem do ar." },
+
+  { id:"dig-14", nome:"Orofaringe", pagina:30,
+    funcao:"Recebe conteúdo proveniente da cavidade oral e participa da condução do bolo alimentar." },
+
+  { id:"dig-15", nome:"Laringofaringe", pagina:30,
+    funcao:"É a porção inferior da faringe que participa da condução do bolo alimentar em direção ao esôfago." },
+
+  /* PÁGINA 31 */
+  { id:"dig-16", nome:"Esôfago", pagina:31,
+    funcao:"Conduz o bolo alimentar da faringe até o estômago por meio de movimentos peristálticos." },
+
+  /* PÁGINA 32 */
+  { id:"dig-17", nome:"Pregas gástricas", pagina:32,
+    funcao:"Permitem que o estômago se distenda quando recebe alimento e estão associadas à superfície interna da mucosa gástrica." },
+
+  { id:"dig-18", nome:"Óstio cárdico", pagina:32,
+    funcao:"É a abertura pela qual o esôfago se comunica com o estômago." },
+
+  { id:"dig-19", nome:"Óstio pilórico", pagina:32,
+    funcao:"É a abertura distal do estômago que estabelece comunicação com o duodeno." },
+
+  /* PÁGINA 33 */
+  { id:"dig-20", nome:"Região cárdia", pagina:33,
+    funcao:"É a região do estômago próxima à entrada do esôfago." },
+
+  { id:"dig-21", nome:"Região pilórica", pagina:33,
+    funcao:"É a região distal do estômago relacionada à passagem do conteúdo gástrico para o duodeno." },
+
+  /* PÁGINA 34 */
+  { id:"dig-22", nome:"Fundo do estômago", pagina:34,
+    funcao:"É a porção superior do estômago, localizada acima da região de entrada do esôfago." },
+
+  { id:"dig-23", nome:"Corpo do estômago", pagina:34,
+    funcao:"É a principal região central do estômago, onde ocorre grande parte da atividade digestiva gástrica." },
+
+  { id:"dig-24", nome:"Curvatura menor do estômago", pagina:34,
+    funcao:"É a margem côncava medial do estômago." },
+
+  { id:"dig-25", nome:"Curvatura maior do estômago", pagina:34,
+    funcao:"É a margem convexa e mais extensa do estômago." },
+
+  /* PÁGINA 35 */
+  { id:"dig-26", nome:"Intestino delgado", pagina:35,
+    funcao:"É o principal local de digestão química e absorção de nutrientes." },
+
+  { id:"dig-27", nome:"Duodeno", pagina:35,
+    funcao:"Recebe o conteúdo proveniente do estômago e participa intensamente da digestão, recebendo secreções digestivas." },
+
+  { id:"dig-28", nome:"Ampola duodenal", pagina:35,
+    funcao:"É a porção inicial dilatada do duodeno, próxima à passagem do conteúdo proveniente do estômago." },
+
+  { id:"dig-29", nome:"Pregas circulares do duodeno", pagina:35,
+    funcao:"Aumentam a superfície interna do intestino delgado, favorecendo a absorção." },
+
+  { id:"dig-30", nome:"Flexura duodenojejunal", pagina:35,
+    funcao:"Marca a transição entre o duodeno e o jejuno." },
+
+  /* PÁGINA 36 */
+  { id:"dig-31", nome:"Jejuno", pagina:36,
+    funcao:"É uma porção do intestino delgado especializada na continuidade da digestão e absorção de nutrientes." },
+
+  { id:"dig-32", nome:"Íleo", pagina:36,
+    funcao:"É a porção final do intestino delgado, responsável pela continuidade da absorção e comunicação com o intestino grosso." },
+
+  /* PÁGINA 37 */
+  { id:"dig-33", nome:"Ceco", pagina:37,
+    funcao:"É a primeira porção do intestino grosso, recebendo o conteúdo proveniente do íleo." },
+
+  { id:"dig-34", nome:"Junção ileocecocólica", pagina:37,
+    funcao:"É a região de transição entre o íleo e o intestino grosso." },
+
+  /* PÁGINA 38 */
+  { id:"dig-35", nome:"Colo ascendente", pagina:38,
+    funcao:"Conduz o conteúdo intestinal no sentido superior pelo lado direito do abdome." },
+
+  { id:"dig-36", nome:"Colo transverso", pagina:38,
+    funcao:"Conduz o conteúdo intestinal transversalmente pelo abdome." },
+
+  { id:"dig-37", nome:"Colo descendente", pagina:38,
+    funcao:"Conduz o conteúdo intestinal inferiormente pelo lado esquerdo do abdome." },
+
+  { id:"dig-38", nome:"Colo sigmoide", pagina:38,
+    funcao:"É a porção do intestino grosso que conduz o conteúdo em direção ao reto." },
+
+  /* PÁGINA 39 */
+  { id:"dig-39", nome:"Haustros", pagina:39,
+    funcao:"São saculações características da parede do intestino grosso." },
+
+  { id:"dig-40", nome:"Intestino grosso", pagina:39,
+    funcao:"Participa principalmente da absorção de água e eletrólitos e da formação e armazenamento das fezes." },
+
+  { id:"dig-41", nome:"Apêndice vermiforme", pagina:39,
+    funcao:"É uma estrutura tubular ligada ao ceco, contendo tecido linfoide e relacionada ao sistema imunológico intestinal." },
+
+  { id:"dig-42", nome:"Canal retal", pagina:39,
+    funcao:"Participa da condução e armazenamento temporário do conteúdo fecal antes da eliminação." },
+
+  { id:"dig-43", nome:"Ânus", pagina:39,
+    funcao:"É a abertura terminal do tubo digestório responsável pela eliminação das fezes." },
+
+  { id:"dig-44", nome:"Tênias", pagina:39,
+    funcao:"São faixas longitudinais de músculo liso presentes no intestino grosso e relacionadas à sua conformação." },
+
+  /* PÁGINA 40 */
+  { id:"dig-45", nome:"Fígado", pagina:40,
+    funcao:"Produz bile, participa do metabolismo de nutrientes, armazenamento de substâncias e processamento de diversas moléculas absorvidas." },
+
+  { id:"dig-46", nome:"Lobo direito do fígado", pagina:40,
+    funcao:"É uma das principais divisões anatômicas do fígado, localizada à direita." },
+
+  { id:"dig-47", nome:"Lobo esquerdo do fígado", pagina:40,
+    funcao:"É uma divisão anatômica do fígado localizada à esquerda." },
+
+  { id:"dig-48", nome:"Lobo caudado", pagina:40,
+    funcao:"É uma divisão anatômica do fígado localizada na face visceral." },
+
+  { id:"dig-49", nome:"Lobo quadrado", pagina:40,
+    funcao:"É uma divisão anatômica do fígado localizada na face visceral." },
+
+  /* PÁGINA 41 */
+  { id:"dig-50", nome:"Veia porta hepática", pagina:41,
+    funcao:"Conduz ao fígado sangue proveniente principalmente do trato gastrointestinal, rico em substâncias absorvidas." },
+
+  { id:"dig-51", nome:"Ligamento falciforme", pagina:41,
+    funcao:"É uma prega peritoneal que ajuda a fixar o fígado e marca externamente a separação entre os lobos direito e esquerdo." },
+
+  { id:"dig-52", nome:"Artéria hepática própria", pagina:41,
+    funcao:"Leva sangue arterial ao fígado, fornecendo oxigênio ao tecido hepático." },
+
+  { id:"dig-53", nome:"Vesícula biliar", pagina:41,
+    funcao:"Armazena e concentra a bile produzida pelo fígado." },
+
+  /* PÁGINA 42 */
+  { id:"dig-54", nome:"Ductos biliares", pagina:42,
+    funcao:"Formam o sistema de condução da bile produzida pelo fígado até as regiões onde ela será utilizada ou armazenada." },
+
+  { id:"dig-55", nome:"Ducto cístico", pagina:42,
+    funcao:"Conecta a vesícula biliar ao sistema de ductos biliares, permitindo a passagem da bile." },
+
+  { id:"dig-56", nome:"Ducto hepático direito", pagina:42,
+    funcao:"Drena bile proveniente dos ductos do lado direito do fígado." },
+
+  { id:"dig-57", nome:"Ducto hepático esquerdo", pagina:42,
+    funcao:"Drena bile proveniente dos ductos do lado esquerdo do fígado." },
+
+  { id:"dig-58", nome:"Ducto hepático comum", pagina:42,
+    funcao:"É formado pela união dos ductos hepáticos direito e esquerdo e conduz a bile para o restante da árvore biliar." },
+
+  { id:"dig-59", nome:"Ducto colédoco", pagina:42,
+    funcao:"Conduz a bile em direção ao duodeno." },
+
+  { id:"dig-60", nome:"Ducto hepatopancreático", pagina:42,
+    funcao:"Relaciona-se à chegada das secreções biliar e pancreática ao duodeno." },
+
+  /* PÁGINA 43 */
+  { id:"dig-61", nome:"Pâncreas", pagina:43,
+    funcao:"Produz enzimas digestivas e secreções hormonais importantes para o metabolismo." },
+
+  { id:"dig-62", nome:"Cabeça do pâncreas", pagina:43,
+    funcao:"É a porção do pâncreas localizada junto ao duodeno." },
+
+  { id:"dig-63", nome:"Corpo do pâncreas", pagina:43,
+    funcao:"É a porção central do pâncreas situada entre a cabeça e a cauda." },
+
+  { id:"dig-64", nome:"Cauda do pâncreas", pagina:43,
+    funcao:"É a extremidade esquerda do pâncreas, próxima ao baço." },
+
+  { id:"dig-65", nome:"Ducto pancreático principal", pagina:43,
+    funcao:"Conduz a secreção pancreática produzida pelo pâncreas em direção ao duodeno." },
+
+  { id:"dig-66", nome:"Ducto pancreático acessório", pagina:43,
+    funcao:"É uma via adicional de drenagem da secreção pancreática para o duodeno." },
+
+  { id:"dig-67", nome:"Ducto pancreático", pagina:43,
+    funcao:"Participa da condução das secreções produzidas pelo pâncreas em direção ao duodeno." },
+
+  /* PÁGINA 44 */
+  { id:"dig-68", nome:"Glândulas salivares", pagina:44,
+    funcao:"Produzem saliva, que umidifica o alimento, facilita a formação do bolo alimentar e inicia processos digestivos." },
+
+  { id:"dig-69", nome:"Parótida", pagina:44,
+    funcao:"É uma grande glândula salivar que produz saliva e a libera por meio de seu ducto." },
+
+  { id:"dig-70", nome:"Ducto da parótida", pagina:44,
+    funcao:"Conduz a saliva produzida pela parótida até a cavidade bucal." },
+
+  /* PÁGINA 45 */
+  { id:"dig-71", nome:"Sublingual", pagina:45,
+    funcao:"É uma glândula salivar localizada no assoalho da boca, contribuindo para a produção de saliva." },
+
+  { id:"dig-72", nome:"Submandibular", pagina:45,
+    funcao:"É uma glândula salivar localizada inferiormente à mandíbula e responsável por parte importante da produção de saliva." }
+];
+
+
+/* ============================================================
+   BANCO COMPLEMENTAR DE RELAÇÕES ANATÔMICAS
+   ============================================================ */
+
+const relacoes = {
+
+  "resp-01":"Está localizada na porção superior do nariz externo.",
+  "resp-02":"Está entre a raiz e o ápice do nariz externo.",
+  "resp-03":"É a extremidade anterior do nariz externo.",
+  "resp-04":"É a porção externa inicial das vias respiratórias.",
+  "resp-05":"Delimita lateralmente as narinas.",
+  "resp-06":"Corresponde à porção inferior do nariz externo.",
+  "resp-07":"É uma abertura externa do sistema respiratório.",
+  "resp-08":"É dividida internamente em regiões que direcionam o fluxo de ar.",
+  "resp-09":"É uma abertura anterior relacionada à cavidade nasal.",
+  "resp-10":"Faz a comunicação posterior da cavidade nasal com a faringe.",
+  "resp-11":"Está acima das demais conchas nasais.",
+  "resp-12":"Ocupa posição intermediária entre as conchas superior e inferior.",
+  "resp-13":"É a concha nasal situada mais inferiormente.",
+  "resp-14":"Está abaixo da concha nasal superior.",
+  "resp-15":"Está relacionado às estruturas de drenagem dos seios paranasais.",
+  "resp-16":"Relaciona-se diretamente ao ducto nasolacrimal.",
+  "resp-17":"Está associado à percepção dos odores.",
+  "resp-18":"É uma via neural relacionada ao olfato.",
+  "resp-19":"Liga a região ocular à cavidade nasal.",
+  "resp-20":"Está localizado no osso frontal.",
+  "resp-21":"Está localizado no osso esfenoide.",
+  "resp-22":"Está relacionado ao osso etmóide.",
+  "resp-23":"Está localizado na maxila.",
+  "resp-24":"Está na parede lateral da nasofaringe.",
+  "resp-25":"É uma abertura localizada na nasofaringe.",
+  "resp-26":"É comum aos sistemas respiratório e digestório.",
+  "resp-27":"Está relacionada à cavidade nasal.",
+  "resp-28":"Está relacionada à cavidade oral.",
+  "resp-29":"É a porção inferior da faringe.",
+  "resp-30":"É uma estrutura linfoide da faringe.",
+  "resp-31":"Relaciona-se diretamente à proteção da via aérea na deglutição.",
+  "resp-32":"Está acima da prega vocal.",
+  "resp-33":"Participa da produção da voz.",
+  "resp-34":"É a região que contém as pregas vocais.",
+  "resp-35":"É a cartilagem que sustenta a epiglote.",
+  "resp-36":"É uma das principais cartilagens da laringe.",
+  "resp-37":"Forma um anel cartilaginoso na laringe.",
+  "resp-38":"É uma pequena cartilagem localizada na região posterior da laringe.",
+  "resp-39":"Participa do movimento das pregas vocais.",
+  "resp-40":"Mantêm a traqueia aberta.",
+  "resp-41":"Ligam os anéis cartilaginosos.",
+  "resp-42":"É a parede posterior membranosa da traqueia.",
+  "resp-43":"É o ponto de divisão da traqueia.",
+  "resp-44":"Liga a laringe aos brônquios.",
+  "resp-45":"Leva ar ao pulmão esquerdo.",
+  "resp-46":"Leva ar ao pulmão direito.",
+  "resp-47":"Leva ar ao lobo superior direito.",
+  "resp-48":"Leva ar ao lobo médio direito.",
+  "resp-49":"Leva ar ao lobo inferior direito.",
+  "resp-50":"Leva ar ao lobo superior esquerdo.",
+  "resp-51":"Leva ar ao lobo inferior esquerdo.",
+  "resp-52":"Levam ar para segmentos broncopulmonares.",
+  "resp-53":"São menores que os brônquios e conduzem o ar mais distalmente.",
+  "resp-54":"É um lobo do pulmão esquerdo.",
+  "resp-55":"É o lobo inferior do pulmão esquerdo.",
+  "resp-56":"Separa os lobos superior e inferior esquerdos.",
+  "resp-57":"É um dos três lobos do pulmão direito.",
+  "resp-58":"Separa os lobos superior e médio direitos.",
+  "resp-59":"É exclusivo do pulmão direito.",
+  "resp-60":"Relaciona-se à separação do lobo inferior direito.",
+  "resp-61":"É o lobo inferior do pulmão direito.",
+  "resp-62":"Está em contato com o diafragma.",
+  "resp-63":"É a extremidade superior do pulmão.",
+  "resp-64":"Relaciona-se à parede torácica.",
+  "resp-65":"Relaciona-se ao diafragma.",
+  "resp-66":"Está voltada para o mediastino.",
+  "resp-67":"É a porta de entrada e saída de estruturas pulmonares.",
+
+  "dig-01":"É uma das estruturas que delimitam a abertura da boca.",
+  "dig-02":"É uma das estruturas que delimitam a abertura da boca.",
+  "dig-03":"Está entre os lábios/bochechas e os dentes.",
+  "dig-04":"Está diretamente envolvida na mastigação.",
+  "dig-05":"É o local inicial da entrada e processamento do alimento.",
+  "dig-06":"Altera o formato da língua.",
+  "dig-07":"Move a língua como um todo.",
+  "dig-08":"É rígido e está na porção anterior do teto da boca.",
+  "dig-09":"É móvel e está posteriormente ao palato duro.",
+  "dig-10":"É uma projeção do palato mole.",
+  "dig-11":"É a abertura entre os lábios.",
+  "dig-12":"É uma região compartilhada pelos sistemas respiratório e digestório.",
+  "dig-13":"Relaciona-se à cavidade nasal.",
+  "dig-14":"Relaciona-se à cavidade oral.",
+  "dig-15":"Está entre a orofaringe e o esôfago.",
+  "dig-16":"Liga a faringe ao estômago.",
+  "dig-17":"São pregas da mucosa do estômago.",
+  "dig-18":"É a entrada do estômago.",
+  "dig-19":"É a saída do estômago em direção ao duodeno.",
+  "dig-20":"Está próxima à entrada do esôfago.",
+  "dig-21":"Está próxima à saída do estômago.",
+  "dig-22":"É a porção superior do estômago.",
+  "dig-23":"É a maior região central do estômago.",
+  "dig-24":"É a margem côncava do estômago.",
+  "dig-25":"É a margem convexa do estômago.",
+  "dig-26":"É o principal local de absorção de nutrientes.",
+  "dig-27":"É a primeira porção do intestino delgado.",
+  "dig-28":"É uma dilatação inicial do duodeno.",
+  "dig-29":"Aumentam a superfície interna do intestino delgado.",
+  "dig-30":"Marca a transição entre duodeno e jejuno.",
+  "dig-31":"É a porção intermediária do intestino delgado.",
+  "dig-32":"É a porção final do intestino delgado.",
+  "dig-33":"É a primeira porção do intestino grosso.",
+  "dig-34":"Marca a transição entre intestino delgado e grosso.",
+  "dig-35":"Ascende pelo lado direito do abdome.",
+  "dig-36":"Atravessa transversalmente o abdome.",
+  "dig-37":"Desce pelo lado esquerdo do abdome.",
+  "dig-38":"Tem formato de S e precede o reto.",
+  "dig-39":"São saculações do intestino grosso.",
+  "dig-40":"É responsável por grande parte da absorção de água no intestino.",
+  "dig-41":"Está ligado ao ceco.",
+  "dig-42":"Relaciona-se ao armazenamento e condução das fezes.",
+  "dig-43":"É a abertura terminal do tubo digestório.",
+  "dig-44":"São faixas longitudinais musculares do intestino grosso.",
+  "dig-45":"É o maior órgão glandular associado ao sistema digestório.",
+  "dig-46":"É o maior lobo hepático.",
+  "dig-47":"É o lobo localizado à esquerda.",
+  "dig-48":"Está na face visceral do fígado.",
+  "dig-49":"Está na face visceral do fígado.",
+  "dig-50":"Recebe sangue proveniente do trato gastrointestinal.",
+  "dig-51":"É uma prega peritoneal relacionada à fixação do fígado.",
+  "dig-52":"Fornece sangue arterial ao fígado.",
+  "dig-53":"Armazena bile.",
+  "dig-54":"Formam a rede responsável pelo transporte da bile.",
+  "dig-55":"Comunica a vesícula biliar com os ductos biliares.",
+  "dig-56":"Drena o lado direito do fígado.",
+  "dig-57":"Drena o lado esquerdo do fígado.",
+  "dig-58":"Resulta da união dos ductos hepáticos direito e esquerdo.",
+  "dig-59":"Conduz bile em direção ao duodeno.",
+  "dig-60":"Relaciona-se à passagem conjunta das secreções biliar e pancreática.",
+  "dig-61":"É uma glândula com funções digestivas e endócrinas.",
+  "dig-62":"Está em contato com o duodeno.",
+  "dig-63":"É a porção central do pâncreas.",
+  "dig-64":"É a extremidade do pâncreas próxima ao baço.",
+  "dig-65":"É a principal via de drenagem da secreção pancreática.",
+  "dig-66":"É uma via adicional de drenagem pancreática.",
+  "dig-67":"Conduz secreções pancreáticas.",
+  "dig-68":"Produzem saliva.",
+  "dig-69":"É uma das maiores glândulas salivares.",
+  "dig-70":"Leva saliva da parótida à cavidade oral.",
+  "dig-71":"Está localizada no assoalho da boca.",
+  "dig-72":"Está relacionada à mandíbula e produz saliva."
+};
+
+
+/* ============================================================
+   PERGUNTAS DIFÍCEIS
+   ============================================================ */
+
+/*
+   As perguntas não perguntam:
+   "Qual é a estrutura indicada?"
+
+   Elas obrigam o jogador a raciocinar.
+*/
+
+function criarPergunta(estrutura, todasEstruturas) {
+
+  const f = estrutura.funcao;
+  const r = relacoes[estrutura.id] || "";
+  const nome = estrutura.nome;
+
+  const tipos = [
+
+    {
+      pergunta:
+        `Qual estrutura da imagem exerce a seguinte função: ${f}`,
+      resposta:nome
+    },
+
+    {
+      pergunta:
+        `Considerando sua posição anatômica e sua função, qual estrutura está sendo descrita? ${f}`,
+      resposta:nome
+    },
+
+    {
+      pergunta:
+        `Se essa estrutura sofresse uma alteração importante, qual função seria diretamente prejudicada?`,
+      resposta:nome
+    },
+
+    {
+      pergunta:
+        `Qual estrutura está relacionada à seguinte característica anatômica: ${r}`,
+      resposta:nome
+    },
+
+    {
+      pergunta:
+        `Qual das estruturas apresentadas está diretamente associada a esta função: ${f}`,
+      resposta:nome
+    }
+  ];
+
+  /*
+    Para perguntas de consequência, usamos a função como pista
+    sem entregar o nome.
+  */
+
+  let modelo = tipos[Math.floor(Math.random() * tipos.length)];
+
+  if (modelo.pergunta.includes("sofresse uma alteração")) {
+    modelo.pergunta =
+      `Uma lesão nessa estrutura poderia comprometer diretamente qual função?`;
+  }
+
+  return {
+    texto:modelo.pergunta,
+    resposta:modelo.resposta
+  };
+}
+
+
+/* ============================================================
+   CRIAÇÃO DAS QUESTÕES
+   ============================================================ */
+
+function embaralhar(array) {
+  const copia = [...array];
 
   for (let i = copia.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
+
     [copia[i], copia[j]] = [copia[j], copia[i]];
   }
 
@@ -28,1028 +731,653 @@ function embaralhar(lista) {
 }
 
 
-// ============================================================
-// ESTRUTURAS DO SISTEMA RESPIRATÓRIO
-// PÁGINAS 2 A 26 DO PDF
-// ============================================================
-
-const estruturasRespiratorio = [
-
-  { id:"resp-01", nome:"Raiz", sistema:"respiratorio", pagina:2 },
-  { id:"resp-02", nome:"Dorso", sistema:"respiratorio", pagina:2 },
-  { id:"resp-03", nome:"Ápice", sistema:"respiratorio", pagina:2 },
-
-  { id:"resp-04", nome:"Asas", sistema:"respiratorio", pagina:3 },
-  { id:"resp-05", nome:"Base", sistema:"respiratorio", pagina:3 },
-  { id:"resp-06", nome:"Narina", sistema:"respiratorio", pagina:3 },
-
-  { id:"resp-07", nome:"Cavidade nasal", sistema:"respiratorio", pagina:4 },
-  { id:"resp-08", nome:"Abertura piriforme", sistema:"respiratorio", pagina:4 },
-  { id:"resp-09", nome:"Coanas", sistema:"respiratorio", pagina:4 },
-
-  { id:"resp-10", nome:"Concha nasal superior", sistema:"respiratorio", pagina:5 },
-  { id:"resp-11", nome:"Concha nasal média", sistema:"respiratorio", pagina:5 },
-  { id:"resp-12", nome:"Concha nasal inferior", sistema:"respiratorio", pagina:5 },
-
-  { id:"resp-13", nome:"Meato nasal superior", sistema:"respiratorio", pagina:6 },
-  { id:"resp-14", nome:"Meato nasal médio", sistema:"respiratorio", pagina:6 },
-  { id:"resp-15", nome:"Meato nasal inferior", sistema:"respiratorio", pagina:6 },
-
-  { id:"resp-16", nome:"Cavidade nasal", sistema:"respiratorio", pagina:7 },
-  { id:"resp-17", nome:"Epitélio olfatório", sistema:"respiratorio", pagina:7 },
-  { id:"resp-18", nome:"Nervo olfatório", sistema:"respiratorio", pagina:7 },
-  { id:"resp-19", nome:"Ducto nasolacrimal", sistema:"respiratorio", pagina:7 },
-
-  { id:"resp-20", nome:"Ducto nasolacrimal", sistema:"respiratorio", pagina:8 },
-  { id:"resp-21", nome:"Cavidade nasal", sistema:"respiratorio", pagina:8 },
-
-  { id:"resp-22", nome:"Seio frontal", sistema:"respiratorio", pagina:9 },
-  { id:"resp-23", nome:"Seio esfenoidal", sistema:"respiratorio", pagina:9 },
-  { id:"resp-24", nome:"Seios etmoidais", sistema:"respiratorio", pagina:9 },
-  { id:"resp-25", nome:"Seios maxilares", sistema:"respiratorio", pagina:9 },
-
-  { id:"resp-26", nome:"Tórus tubal", sistema:"respiratorio", pagina:10 },
-  { id:"resp-27", nome:"Óstio faríngeo da tuba auditiva", sistema:"respiratorio", pagina:10 },
-  { id:"resp-28", nome:"Faringe", sistema:"respiratorio", pagina:10 },
-
-  { id:"resp-29", nome:"Faringe", sistema:"respiratorio", pagina:11 },
-  { id:"resp-30", nome:"Nasofaringe", sistema:"respiratorio", pagina:11 },
-  { id:"resp-31", nome:"Orofaringe", sistema:"respiratorio", pagina:11 },
-  { id:"resp-32", nome:"Laringofaringe", sistema:"respiratorio", pagina:11 },
-
-  { id:"resp-33", nome:"Faringe", sistema:"respiratorio", pagina:12 },
-  { id:"resp-34", nome:"Tórus tubal", sistema:"respiratorio", pagina:12 },
-  { id:"resp-35", nome:"Óstio faríngeo da tuba auditiva", sistema:"respiratorio", pagina:12 },
-  { id:"resp-36", nome:"Tonsilas faríngeas", sistema:"respiratorio", pagina:12 },
-
-  { id:"resp-37", nome:"Epiglote", sistema:"respiratorio", pagina:13 },
-  { id:"resp-38", nome:"Prega vestibular", sistema:"respiratorio", pagina:13 },
-  { id:"resp-39", nome:"Prega vocal", sistema:"respiratorio", pagina:13 },
-  { id:"resp-40", nome:"Laringe", sistema:"respiratorio", pagina:13 },
-
-  { id:"resp-41", nome:"Epiglote", sistema:"respiratorio", pagina:14 },
-  { id:"resp-42", nome:"Prega vestibular", sistema:"respiratorio", pagina:14 },
-  { id:"resp-43", nome:"Prega vocal", sistema:"respiratorio", pagina:14 },
-  { id:"resp-44", nome:"Laringe", sistema:"respiratorio", pagina:14 },
-
-  { id:"resp-45", nome:"Cartilagem epiglótica", sistema:"respiratorio", pagina:15 },
-  { id:"resp-46", nome:"Cartilagem da tireóide", sistema:"respiratorio", pagina:15 },
-  { id:"resp-47", nome:"Cartilagem cricóide", sistema:"respiratorio", pagina:15 },
-
-  { id:"resp-48", nome:"Cartilagem corniculada", sistema:"respiratorio", pagina:16 },
-  { id:"resp-49", nome:"Cartilagem aritenóide", sistema:"respiratorio", pagina:16 },
-  { id:"resp-50", nome:"Cartilagem cricóide", sistema:"respiratorio", pagina:16 },
-
-  { id:"resp-51", nome:"Anéis cartilaginosos", sistema:"respiratorio", pagina:17 },
-  { id:"resp-52", nome:"Ligamentos anulares", sistema:"respiratorio", pagina:17 },
-  { id:"resp-53", nome:"Parede posterior da traquéia", sistema:"respiratorio", pagina:17 },
-  { id:"resp-54", nome:"Carina", sistema:"respiratorio", pagina:17 },
-  { id:"resp-55", nome:"Traquéia", sistema:"respiratorio", pagina:17 },
-
-  { id:"resp-56", nome:"Principal esquerdo", sistema:"respiratorio", pagina:18 },
-  { id:"resp-57", nome:"Principal direito", sistema:"respiratorio", pagina:18 },
-  { id:"resp-58", nome:"Bronquio lobar superior direito", sistema:"respiratorio", pagina:18 },
-  { id:"resp-59", nome:"Bronquio lobar médio direito", sistema:"respiratorio", pagina:18 },
-  { id:"resp-60", nome:"Bronquio lobar inferior direito", sistema:"respiratorio", pagina:18 },
-
-  { id:"resp-61", nome:"Principal direito", sistema:"respiratorio", pagina:19 },
-  { id:"resp-62", nome:"Bronquio lobar superior direito", sistema:"respiratorio", pagina:19 },
-  { id:"resp-63", nome:"Bronquio lobar médio direito", sistema:"respiratorio", pagina:19 },
-  { id:"resp-64", nome:"Bronquio lobar inferior direito", sistema:"respiratorio", pagina:19 },
-
-  { id:"resp-65", nome:"Bronquio lobar superior esquerdo", sistema:"respiratorio", pagina:20 },
-  { id:"resp-66", nome:"Bronquio lobar inferior esquerdo", sistema:"respiratorio", pagina:20 },
-  { id:"resp-67", nome:"Bronquio principal esquerdo", sistema:"respiratorio", pagina:20 },
-
-  { id:"resp-68", nome:"Bronquios segmentares", sistema:"respiratorio", pagina:21 },
-  { id:"resp-69", nome:"Bronquíolos", sistema:"respiratorio", pagina:21 },
-
-  { id:"resp-70", nome:"Lobo superior esq.", sistema:"respiratorio", pagina:22 },
-  { id:"resp-71", nome:"Lobo inferior esq.", sistema:"respiratorio", pagina:22 },
-  { id:"resp-72", nome:"Fissura oblíqua", sistema:"respiratorio", pagina:22 },
-
-  { id:"resp-73", nome:"Lobo superior dir.", sistema:"respiratorio", pagina:23 },
-  { id:"resp-74", nome:"Fissura horizontal", sistema:"respiratorio", pagina:23 },
-  { id:"resp-75", nome:"Lobo médio", sistema:"respiratorio", pagina:23 },
-  { id:"resp-76", nome:"Fissura oblíqua", sistema:"respiratorio", pagina:23 },
-  { id:"resp-77", nome:"Lobo inferior dir.", sistema:"respiratorio", pagina:23 },
-
-  { id:"resp-78", nome:"Base", sistema:"respiratorio", pagina:24 },
-  { id:"resp-79", nome:"Ápice", sistema:"respiratorio", pagina:24 },
-
-  { id:"resp-80", nome:"Faces costal", sistema:"respiratorio", pagina:25 },
-  { id:"resp-81", nome:"Face diafragmática", sistema:"respiratorio", pagina:25 },
-  { id:"resp-82", nome:"Face medial", sistema:"respiratorio", pagina:25 },
-
-  { id:"resp-83", nome:"Hilo pulmonar", sistema:"respiratorio", pagina:26 }
-
-];
-
-
-// ============================================================
-// ESTRUTURAS DO SISTEMA DIGESTÓRIO
-// PÁGINAS 28 A 45 DO PDF
-// ============================================================
-
-const estruturasDigestorio = [
-
-  { id:"dig-01", nome:"Lábio superior", sistema:"digestorio", pagina:28 },
-  { id:"dig-02", nome:"Lábio inferior", sistema:"digestorio", pagina:28 },
-  { id:"dig-03", nome:"Vestíbulo bucal", sistema:"digestorio", pagina:28 },
-  { id:"dig-04", nome:"Arcáda dentária", sistema:"digestorio", pagina:28 },
-
-  { id:"dig-05", nome:"Língua (musculatura intrínseca)", sistema:"digestorio", pagina:29 },
-  { id:"dig-06", nome:"Língua (musculatura extrínseca)", sistema:"digestorio", pagina:29 },
-  { id:"dig-07", nome:"Palato duro", sistema:"digestorio", pagina:29 },
-  { id:"dig-08", nome:"Palato mole", sistema:"digestorio", pagina:29 },
-  { id:"dig-09", nome:"Úvula palatina", sistema:"digestorio", pagina:29 },
-  { id:"dig-10", nome:"Rima labial", sistema:"digestorio", pagina:29 },
-
-  { id:"dig-11", nome:"Faringe", sistema:"digestorio", pagina:30 },
-  { id:"dig-12", nome:"Nasofaringe", sistema:"digestorio", pagina:30 },
-  { id:"dig-13", nome:"Orofaringe", sistema:"digestorio", pagina:30 },
-  { id:"dig-14", nome:"Laringofaringe", sistema:"digestorio", pagina:30 },
-
-  { id:"dig-15", nome:"Esôfago", sistema:"digestorio", pagina:31 },
-
-  { id:"dig-16", nome:"Pregas gástricas", sistema:"digestorio", pagina:32 },
-  { id:"dig-17", nome:"Óstio cárdico", sistema:"digestorio", pagina:32 },
-  { id:"dig-18", nome:"Óstio pilórico", sistema:"digestorio", pagina:32 },
-
-  { id:"dig-19", nome:"Região cardia", sistema:"digestorio", pagina:33 },
-  { id:"dig-20", nome:"Região pilórica", sistema:"digestorio", pagina:33 },
-
-  { id:"dig-21", nome:"Fundo do estômago", sistema:"digestorio", pagina:34 },
-  { id:"dig-22", nome:"Corpo do estômago", sistema:"digestorio", pagina:34 },
-  { id:"dig-23", nome:"Curvatura menor do estômago", sistema:"digestorio", pagina:34 },
-  { id:"dig-24", nome:"Curvatura maior do estômago", sistema:"digestorio", pagina:34 },
-
-  { id:"dig-25", nome:"Duodeno", sistema:"digestorio", pagina:35 },
-  { id:"dig-26", nome:"Ampola duodenal", sistema:"digestorio", pagina:35 },
-  { id:"dig-27", nome:"Pregas circulares do duodeno", sistema:"digestorio", pagina:35 },
-  { id:"dig-28", nome:"Flexura duodeno jejunal", sistema:"digestorio", pagina:35 },
-
-  { id:"dig-29", nome:"Jejuno", sistema:"digestorio", pagina:36 },
-  { id:"dig-30", nome:"Íleo", sistema:"digestorio", pagina:36 },
-
-  { id:"dig-31", nome:"Cecum", sistema:"digestorio", pagina:37 },
-  { id:"dig-32", nome:"Junção ileo-cecum-cólica", sistema:"digestorio", pagina:37 },
-
-  { id:"dig-33", nome:"Colo sigmóide", sistema:"digestorio", pagina:38 },
-  { id:"dig-34", nome:"Intestino grosso", sistema:"digestorio", pagina:38 },
-  { id:"dig-35", nome:"Colo ascendente", sistema:"digestorio", pagina:38 },
-  { id:"dig-36", nome:"Colo transverso", sistema:"digestorio", pagina:38 },
-  { id:"dig-37", nome:"Colo descendente", sistema:"digestorio", pagina:38 },
-
-  { id:"dig-38", nome:"Haustros", sistema:"digestorio", pagina:39 },
-  { id:"dig-39", nome:"Intestino grosso", sistema:"digestorio", pagina:39 },
-  { id:"dig-40", nome:"Apêndice vermiforme", sistema:"digestorio", pagina:39 },
-  { id:"dig-41", nome:"Canal retal", sistema:"digestorio", pagina:39 },
-  { id:"dig-42", nome:"Ânus", sistema:"digestorio", pagina:39 },
-  { id:"dig-43", nome:"Tênia", sistema:"digestorio", pagina:39 },
-
-  { id:"dig-44", nome:"Lobo direito", sistema:"digestorio", pagina:40 },
-  { id:"dig-45", nome:"Lobo esquerdo", sistema:"digestorio", pagina:40 },
-  { id:"dig-46", nome:"Lobo caudado", sistema:"digestorio", pagina:40 },
-  { id:"dig-47", nome:"Lobo quadrado", sistema:"digestorio", pagina:40 },
-
-  { id:"dig-48", nome:"Veia porta hepática", sistema:"digestorio", pagina:41 },
-  { id:"dig-49", nome:"Ligamento falciforme", sistema:"digestorio", pagina:41 },
-  { id:"dig-50", nome:"Artéria hepática própria", sistema:"digestorio", pagina:41 },
-  { id:"dig-51", nome:"Vesícula biliar", sistema:"digestorio", pagina:41 },
-
-  { id:"dig-52", nome:"Ducto cístico", sistema:"digestorio", pagina:42 },
-  { id:"dig-53", nome:"Ducto hepático direito", sistema:"digestorio", pagina:42 },
-  { id:"dig-54", nome:"Ducto hepático esquerdo", sistema:"digestorio", pagina:42 },
-  { id:"dig-55", nome:"Ducto hepático comum", sistema:"digestorio", pagina:42 },
-  { id:"dig-56", nome:"Ducto colédoco", sistema:"digestorio", pagina:42 },
-  { id:"dig-57", nome:"Ducto hepato pancreático", sistema:"digestorio", pagina:42 },
-
-  { id:"dig-58", nome:"Cabeça", sistema:"digestorio", pagina:43 },
-  { id:"dig-59", nome:"Corpo", sistema:"digestorio", pagina:43 },
-  { id:"dig-60", nome:"Cauda", sistema:"digestorio", pagina:43 },
-  { id:"dig-61", nome:"Ducto pancreático principal", sistema:"digestorio", pagina:43 },
-  { id:"dig-62", nome:"Ducto pancreático acessório", sistema:"digestorio", pagina:43 },
-  { id:"dig-63", nome:"Ducto pancreático", sistema:"digestorio", pagina:43 },
-
-  { id:"dig-64", nome:"Parótida", sistema:"digestorio", pagina:44 },
-  { id:"dig-65", nome:"Ducto da parótida", sistema:"digestorio", pagina:44 },
-
-  { id:"dig-66", nome:"Sublingual", sistema:"digestorio", pagina:45 },
-  { id:"dig-67", nome:"Submandibular", sistema:"digestorio", pagina:45 }
-
-];
-
-
-const estruturas = [
-  ...estruturasRespiratorio,
-  ...estruturasDigestorio
-];
-
-
-// ============================================================
-// PERGUNTAS
-// ============================================================
-
-const perguntasConhecimento = {
-
-  "resp-01": "Qual parte do nariz externo corresponde à região de implantação superior do nariz?",
-  "resp-02": "Qual parte do nariz externo corresponde à sua porção longitudinal entre a raiz e o ápice?",
-  "resp-03": "Qual parte do nariz externo corresponde à extremidade anterior?",
-  "resp-04": "Qual estrutura forma as porções laterais do nariz externo?",
-  "resp-05": "Qual estrutura corresponde à porção inferior do nariz externo?",
-  "resp-06": "Qual estrutura corresponde à abertura externa da cavidade nasal?",
-
-  "resp-07": "Qual espaço interno do nariz participa da passagem do ar?",
-  "resp-08": "Qual abertura óssea apresenta formato semelhante a uma pera?",
-  "resp-09": "Quais aberturas posteriores comunicam a cavidade nasal com a faringe?",
-
-  "resp-10": "Qual concha nasal ocupa a posição mais superior entre as conchas apresentadas?",
-  "resp-11": "Qual concha nasal ocupa a posição intermediária?",
-  "resp-12": "Qual concha nasal ocupa a posição mais inferior?",
-
-  "resp-13": "Qual meato nasal está localizado abaixo da concha nasal superior?",
-  "resp-14": "Qual meato nasal está localizado abaixo da concha nasal média?",
-  "resp-15": "Qual meato nasal está localizado abaixo da concha nasal inferior?",
-
-  "resp-16": "Qual espaço interno do nariz contém estruturas relacionadas à passagem e condicionamento do ar?",
-  "resp-17": "Qual estrutura está relacionada diretamente à recepção dos estímulos olfatórios?",
-  "resp-18": "Qual estrutura está relacionada à condução dos estímulos olfatórios?",
-  "resp-19": "Qual ducto está relacionado à drenagem das lágrimas para a cavidade nasal?",
-
-  "resp-20": "Qual estrutura conduz a drenagem das lágrimas em direção à cavidade nasal?",
-  "resp-21": "Qual cavidade ocupa o interior do nariz?",
-
-  "resp-22": "Qual seio paranasal está localizado na região do osso frontal?",
-  "resp-23": "Qual seio paranasal está relacionado ao osso esfenoide?",
-  "resp-24": "Quais seios paranasais estão relacionados às células do osso etmoide?",
-  "resp-25": "Quais seios paranasais estão relacionados às maxilas?",
-
-  "resp-26": "Qual estrutura da nasofaringe forma uma elevação relacionada à abertura da tuba auditiva?",
-  "resp-27": "Qual abertura comunica a faringe com a tuba auditiva?",
-  "resp-28": "Qual estrutura muscular da região da garganta participa da passagem do ar e do alimento?",
-
-  "resp-29": "Qual estrutura da garganta está dividida em nasofaringe, orofaringe e laringofaringe?",
-  "resp-30": "Qual parte da faringe está localizada posteriormente à cavidade nasal?",
-  "resp-31": "Qual parte da faringe está relacionada à região posterior da cavidade oral?",
-  "resp-32": "Qual parte da faringe é a porção inferior da faringe?",
-
-  "resp-33": "Qual estrutura apresenta as regiões nasofaringe, orofaringe e laringofaringe?",
-  "resp-34": "Qual elevação da nasofaringe está relacionada à tuba auditiva?",
-  "resp-35": "Qual abertura está relacionada à comunicação com a tuba auditiva?",
-  "resp-36": "Qual estrutura está localizada na região da nasofaringe e é representada como tonsila?",
-
-  "resp-37": "Qual estrutura atua como uma espécie de proteção da entrada da laringe durante a deglutição?",
-  "resp-38": "Qual prega da laringe está localizada superiormente à prega vocal?",
-  "resp-39": "Qual prega da laringe está diretamente relacionada à produção da voz?",
-  "resp-40": "Qual órgão está localizado entre a faringe e a traqueia?",
-
-  "resp-41": "Qual estrutura da laringe participa da proteção das vias respiratórias durante a deglutição?",
-  "resp-42": "Qual estrutura está acima da prega vocal na laringe?",
-  "resp-43": "Qual estrutura está relacionada à produção da voz?",
-  "resp-44": "Qual órgão contém as pregas vestibulares e vocais?",
-
-  "resp-45": "Qual cartilagem da laringe corresponde à cartilagem relacionada à epiglote?",
-  "resp-46": "Qual cartilagem da laringe é chamada de cartilagem da tireoide?",
-  "resp-47": "Qual cartilagem forma um anel na parte inferior da laringe?",
-
-  "resp-48": "Qual cartilagem da laringe está relacionada às cartilagens corniculadas?",
-  "resp-49": "Qual cartilagem da laringe está relacionada às cartilagens aritenoides?",
-  "resp-50": "Qual cartilagem da laringe apresenta formato de anel?",
-
-  "resp-51": "Quais estruturas reforçam a parede da traqueia?",
-  "resp-52": "Quais estruturas estão associadas aos anéis cartilaginosos da traqueia?",
-  "resp-53": "Qual estrutura corresponde à parede posterior da traqueia?",
-  "resp-54": "Qual região marca a bifurcação da traqueia?",
-  "resp-55": "Qual órgão conduz o ar da laringe em direção aos brônquios?",
-
-  "resp-56": "Qual brônquio principal está relacionado ao pulmão esquerdo?",
-  "resp-57": "Qual brônquio principal está relacionado ao pulmão direito?",
-  "resp-58": "Qual brônquio corresponde ao lobo superior do pulmão direito?",
-  "resp-59": "Qual brônquio corresponde ao lobo médio do pulmão direito?",
-  "resp-60": "Qual brônquio corresponde ao lobo inferior do pulmão direito?",
-
-  "resp-61": "Qual brônquio principal está relacionado ao pulmão direito?",
-  "resp-62": "Qual brônquio conduz o ar para o lobo superior direito?",
-  "resp-63": "Qual brônquio conduz o ar para o lobo médio direito?",
-  "resp-64": "Qual brônquio conduz o ar para o lobo inferior direito?",
-
-  "resp-65": "Qual brônquio lobar conduz o ar para o lobo superior esquerdo?",
-  "resp-66": "Qual brônquio lobar conduz o ar para o lobo inferior esquerdo?",
-  "resp-67": "Qual brônquio principal está relacionado ao pulmão esquerdo?",
-
-  "resp-68": "Como são chamados os brônquios que se distribuem em segmentos pulmonares?",
-  "resp-69": "Quais pequenas vias aéreas aparecem depois dos brônquios?",
-
-  "resp-70": "Qual lobo pertence ao pulmão esquerdo e ocupa a posição superior?",
-  "resp-71": "Qual lobo pertence ao pulmão esquerdo e ocupa a posição inferior?",
-  "resp-72": "Qual fissura separa os lobos superior e inferior do pulmão esquerdo?",
-
-  "resp-73": "Qual lobo ocupa a posição superior no pulmão direito?",
-  "resp-74": "Qual fissura separa o lobo superior do lobo médio no pulmão direito?",
-  "resp-75": "Qual lobo está localizado entre as fissuras horizontal e oblíqua do pulmão direito?",
-  "resp-76": "Qual fissura separa o lobo inferior dos lobos superiores do pulmão direito?",
-  "resp-77": "Qual lobo ocupa a posição inferior no pulmão direito?",
-
-  "resp-78": "Qual parte do pulmão está apoiada sobre o diafragma?",
-  "resp-79": "Qual extremidade superior do pulmão se projeta acima da base?",
-  "resp-80": "Qual face do pulmão está voltada principalmente para as costelas?",
-  "resp-81": "Qual face do pulmão está relacionada ao diafragma?",
-  "resp-82": "Qual face do pulmão corresponde à face voltada medialmente?",
-  "resp-83": "Qual região do pulmão é o local de entrada e saída de estruturas pulmonares?",
-
-
-  // ==========================================================
-  // DIGESTÓRIO
-  // ==========================================================
-
-  "dig-01": "Qual estrutura corresponde à porção superior dos lábios?",
-  "dig-02": "Qual estrutura corresponde à porção inferior dos lábios?",
-  "dig-03": "Qual espaço está localizado entre os lábios, bochechas e arcada dentária?",
-  "dig-04": "Qual estrutura está relacionada ao conjunto formado pelos dentes?",
-
-  "dig-05": "Qual musculatura da língua altera sua forma?",
-  "dig-06": "Qual musculatura da língua está relacionada aos movimentos da língua?",
-  "dig-07": "Qual parte do palato apresenta consistência óssea?",
-  "dig-08": "Qual parte do palato é posterior e apresenta maior mobilidade?",
-  "dig-09": "Qual estrutura está localizada na extremidade posterior do palato mole?",
-  "dig-10": "Qual estrutura corresponde à abertura entre os lábios?",
-
-  "dig-11": "Qual estrutura da garganta participa tanto do sistema digestório quanto do respiratório?",
-  "dig-12": "Qual parte da faringe está localizada posteriormente à cavidade nasal?",
-  "dig-13": "Qual parte da faringe está localizada posteriormente à cavidade oral?",
-  "dig-14": "Qual parte inferior da faringe está representada no material?",
-
-  "dig-15": "Qual órgão conduz o alimento da faringe em direção ao estômago?",
-
-  "dig-16": "Qual estrutura forma pregas no interior do estômago?",
-  "dig-17": "Qual abertura do estômago está relacionada à entrada do alimento vindo do esôfago?",
-  "dig-18": "Qual abertura do estômago está relacionada à saída em direção ao duodeno?",
-
-  "dig-19": "Qual região do estômago está próxima à entrada do esôfago?",
-  "dig-20": "Qual região do estômago está próxima ao piloro?",
-
-  "dig-21": "Qual região superior do estômago forma uma porção semelhante a uma cúpula?",
-  "dig-22": "Qual grande região central do estômago está entre o fundo e a região pilórica?",
-  "dig-23": "Qual curvatura do estômago é a menor?",
-  "dig-24": "Qual curvatura do estômago é a maior?",
-
-  "dig-25": "Qual primeira porção do intestino delgado recebe o conteúdo vindo do estômago?",
-  "dig-26": "Qual dilatação está relacionada ao início do duodeno?",
-  "dig-27": "Qual estrutura forma pregas no interior do duodeno?",
-  "dig-28": "Qual estrutura marca a transição entre o duodeno e o jejuno?",
-
-  "dig-29": "Qual porção do intestino delgado está localizada entre o duodeno e o íleo?",
-  "dig-30": "Qual porção do intestino delgado vem depois do jejuno?",
-
-  "dig-31": "Qual primeira porção do intestino grosso aparece após o íleo?",
-  "dig-32": "Qual região corresponde à junção entre íleo, ceco e cólon?",
-
-  "dig-33": "Qual segmento do cólon apresenta formato semelhante a um S?",
-  "dig-34": "Qual estrutura corresponde ao conjunto que inclui os colos ascendente, transverso e descendente?",
-  "dig-35": "Qual segmento do cólon sobe pelo lado direito do abdome?",
-  "dig-36": "Qual segmento do cólon atravessa transversalmente o abdome?",
-  "dig-37": "Qual segmento do cólon desce pelo lado esquerdo do abdome?",
-
-  "dig-38": "Como são chamadas as saculações observadas na parede do intestino grosso?",
-  "dig-39": "Qual estrutura inclui o cólon e outras partes do intestino grosso?",
-  "dig-40": "Qual pequena estrutura tubular está ligada ao ceco?",
-  "dig-41": "Qual estrutura corresponde à porção final do intestino antes do ânus?",
-  "dig-42": "Qual abertura corresponde à extremidade final do tubo digestório?",
-  "dig-43": "Qual estrutura longitudinal aparece associada à parede do intestino grosso?",
-
-  "dig-44": "Qual é o maior lobo do fígado?",
-  "dig-45": "Qual lobo do fígado está localizado no lado esquerdo?",
-  "dig-46": "Qual lobo do fígado está localizado posteriormente e é chamado de caudado?",
-  "dig-47": "Qual lobo do fígado está localizado inferiormente e é chamado de quadrado?",
-
-  "dig-48": "Qual vaso conduz sangue proveniente do sistema digestório em direção ao fígado?",
-  "dig-49": "Qual ligamento separa externamente os lobos direito e esquerdo do fígado?",
-  "dig-50": "Qual artéria fornece sangue ao fígado?",
-  "dig-51": "Qual órgão armazena a bile?",
-
-  "dig-52": "Qual ducto está relacionado diretamente à vesícula biliar?",
-  "dig-53": "Qual ducto conduz a bile proveniente do lado direito do fígado?",
-  "dig-54": "Qual ducto conduz a bile proveniente do lado esquerdo do fígado?",
-  "dig-55": "Qual ducto resulta da união dos ductos hepáticos direito e esquerdo?",
-  "dig-56": "Qual ducto conduz a bile em direção ao duodeno?",
-  "dig-57": "Qual estrutura está relacionada à união dos sistemas de ductos hepático e pancreático?",
-
-  "dig-58": "Qual parte do pâncreas está localizada junto ao duodeno?",
-  "dig-59": "Qual parte do pâncreas corresponde à sua porção central?",
-  "dig-60": "Qual parte do pâncreas corresponde à sua extremidade?",
-  "dig-61": "Qual ducto pancreático é o principal?",
-  "dig-62": "Qual ducto pancreático é denominado acessório?",
-  "dig-63": "Qual estrutura corresponde ao ducto relacionado ao pâncreas?",
-
-  "dig-64": "Qual glândula salivar está localizada na região próxima à orelha?",
-  "dig-65": "Qual ducto conduz a secreção da parótida?",
-  "dig-66": "Qual glândula salivar está localizada abaixo da língua?",
-  "dig-67": "Qual glândula salivar está localizada inferiormente à mandíbula?"
-
-};
-
-
-// ============================================================
-// TELA
-// ============================================================
-
-function mostrarTela(id) {
-
-  document.querySelectorAll(".tela").forEach(tela => {
-    tela.classList.remove("ativa");
+function escolherAlternativas(resposta, todasEstruturas) {
+
+  const candidatos = todasEstruturas.filter(
+    item => item.nome !== resposta
+  );
+
+  const alternativasErradas = embaralhar(candidatos)
+    .slice(0, TOTAL_ALTERNATIVAS - 1)
+    .map(item => item.nome);
+
+  return embaralhar([
+    resposta,
+    ...alternativasErradas
+  ]);
+}
+
+
+function criarBancoPerguntas() {
+
+  const todas = sistemaAtual === "respiratorio"
+    ? respiratorio
+    : digestorio;
+
+  let perguntas = [];
+
+  todas.forEach(estrutura => {
+
+    /*
+      Criamos várias versões para que a mesma estrutura
+      possa ser cobrada de maneiras diferentes.
+    */
+
+    for (let i = 0; i < 4; i++) {
+
+      const pergunta = criarPergunta(
+        estrutura,
+        todas
+      );
+
+      perguntas.push({
+        id:estrutura.id,
+        estrutura:estrutura.nome,
+        pagina:estrutura.pagina,
+        imagem:`pagina-${String(estrutura.pagina).padStart(2,"0")}.jpg`,
+        pergunta:pergunta.texto,
+        resposta:pergunta.resposta,
+        funcao:estrutura.funcao,
+        alternativas:escolherAlternativas(
+          estrutura.nome,
+          todas
+        )
+      });
+    }
   });
 
-  const tela = document.getElementById(id);
-
-  if (tela) {
-    tela.classList.add("ativa");
-  }
-
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
+  return embaralhar(perguntas);
 }
 
 
-// ============================================================
-// SELECIONAR SISTEMA
-// ============================================================
+/* ============================================================
+   ELEMENTOS DA INTERFACE
+   ============================================================ */
 
-function selecionarSistema(sistema) {
-
-  if (
-    sistema !== "respiratorio" &&
-    sistema !== "digestorio" &&
-    sistema !== "ambos"
-  ) {
-    return;
-  }
-
-  sistemaAtual = sistema;
-
-  const titulo = document.getElementById("tituloSistema");
-
-  if (titulo) {
-
-    if (sistema === "respiratorio") {
-      titulo.textContent = "Sistema Respiratório";
-    }
-
-    else if (sistema === "digestorio") {
-      titulo.textContent = "Sistema Digestório";
-    }
-
-    else {
-      titulo.textContent =
-        "Sistema Respiratório e Digestório";
-    }
-  }
-
-  mostrarTela("configuracao");
+function elemento(id) {
+  return document.getElementById(id);
 }
 
 
-// ============================================================
-// VOLTAR AO MENU
-// ============================================================
+/* ============================================================
+   INICIAR JOGO
+   ============================================================ */
 
-function voltarMenu() {
-
-  sistemaAtual = null;
-  modoAtual = null;
-  perguntas = [];
-  indiceAtual = 0;
-  pontuacao = 0;
-  respondeu = false;
-
-  mostrarTela("menu");
-}
-
-
-// ============================================================
-// INICIAR JOGO
-// ============================================================
-
-function iniciarJogo(modo) {
+function iniciarJogo(modo, sistema = "respiratorio") {
 
   modoAtual = modo;
+  sistemaAtual = sistema;
 
-  if (!sistemaAtual) {
-    sistemaAtual = "ambos";
-  }
-
-  let pool;
-
-  if (sistemaAtual === "ambos") {
-    pool = [...estruturas];
-  }
-
-  else {
-    pool = estruturas.filter(
-      item => item.sistema === sistemaAtual
-    );
-  }
-
-  perguntas = embaralhar(pool);
-
-  indiceAtual = 0;
+  indicePergunta = 0;
   pontuacao = 0;
-  respondeu = false;
+  respondida = false;
+  historicoPerguntas = [];
+
+  perguntasJogo = criarBancoPerguntas();
+
+  /*
+    No modo simulado usamos uma quantidade limitada,
+    mas suficientemente grande para testar conhecimento.
+  */
+
+  if (modo === "simulado") {
+    perguntasJogo = perguntasJogo.slice(0, 40);
+  }
 
   mostrarTela("jogo");
 
-  carregarQuestao();
+  mostrarPergunta();
 }
 
 
-// ============================================================
-// CARREGAR QUESTÃO
-// ============================================================
+/* ============================================================
+   TROCA DE TELAS
+   ============================================================ */
 
-function carregarQuestao() {
+function mostrarTela(nome) {
 
-  if (indiceAtual >= perguntas.length) {
-    mostrarResultado();
+  const telas = [
+    "menu",
+    "configuracao",
+    "jogo",
+    "resultado"
+  ];
+
+  telas.forEach(tela => {
+
+    const el = elemento(tela);
+
+    if (el) {
+      el.style.display =
+        tela === nome ? "block" : "none";
+    }
+
+  });
+}
+
+
+/* ============================================================
+   MOSTRAR PERGUNTA
+   ============================================================ */
+
+function mostrarPergunta() {
+
+  if (indicePergunta >= perguntasJogo.length) {
+    finalizarJogo();
     return;
   }
 
-  respondeu = false;
+  respondida = false;
 
-  const estrutura = perguntas[indiceAtual];
+  const questao = perguntasJogo[indicePergunta];
 
-  const pergunta =
-    document.getElementById("pergunta");
+  historicoPerguntas.push(questao.id);
 
-  const imagem =
-    document.getElementById("imagemAnatomica");
-
-  const semImagem =
-    document.getElementById("semImagem");
-
-  const marcador =
-    document.getElementById("marcador");
-
-  const feedback =
-    document.getElementById("feedback");
-
-  const proxima =
-    document.getElementById("proxima");
-
-  const contador =
-    document.getElementById("contador");
-
-  const pontos =
-    document.getElementById("pontuacao");
-
-  const progresso =
-    document.getElementById("progresso");
-
-
-  // CONTADOR
-
-  if (contador) {
-    contador.textContent =
-      `Questão ${indiceAtual + 1} de ${perguntas.length}`;
-  }
-
-
-  // PONTUAÇÃO
-
-  if (pontos) {
-    pontos.textContent =
-      `Pontos: ${pontuacao}`;
-  }
-
-
-  // PROGRESSO
-
-  if (progresso) {
-
-    const porcentagem =
-      (indiceAtual / perguntas.length) * 100;
-
-    progresso.style.width =
-      `${porcentagem}%`;
-  }
-
-
-  // PERGUNTA
-
-  if (pergunta) {
-
-    pergunta.textContent =
-      perguntasConhecimento[estrutura.id] ||
-      "Qual alternativa identifica corretamente a estrutura relacionada à imagem?";
-  }
-
-
-  // IMAGEM
+  const imagem = elemento("imagemAnatomica");
+  const semImagem = elemento("semImagem");
 
   if (imagem) {
 
-    const numeroPagina =
-      String(estrutura.pagina).padStart(2, "0");
-
-    imagem.src =
-      `pagina-${numeroPagina}.jpg`;
+    imagem.src = questao.imagem;
 
     imagem.alt =
-      `Imagem anatômica da página ${estrutura.pagina}`;
+      `Prancha anatômica da página ${questao.pagina} do PDF`;
 
-    imagem.style.display =
-      "block";
+    imagem.style.display = "block";
   }
-
-
-  // SEM IMAGEM
 
   if (semImagem) {
     semImagem.style.display = "none";
   }
 
+  /*
+    IMPORTANTE:
+    O marcador antigo NÃO é usado.
+    As setas já estão nas imagens originais do PDF.
+  */
 
-  // SEM MARCADOR
+  const marcador = elemento("marcador");
 
   if (marcador) {
     marcador.style.display = "none";
   }
 
+  const perguntaEl = elemento("pergunta");
 
-  // LIMPAR FEEDBACK
-
-  if (feedback) {
-
-    feedback.textContent = "";
-
-    feedback.className =
-      "feedback";
+  if (perguntaEl) {
+    perguntaEl.textContent = questao.pergunta;
   }
 
+  const alternativas = elemento("alternativas");
 
-  // ESCONDER PRÓXIMA
+  if (alternativas) {
+
+    alternativas.innerHTML = "";
+
+    questao.alternativas.forEach((alternativa, index) => {
+
+      const botao = document.createElement("button");
+
+      botao.type = "button";
+      botao.className = "alternativa";
+
+      botao.textContent =
+        `${String.fromCharCode(65 + index)}) ${alternativa}`;
+
+      botao.addEventListener(
+        "click",
+        () => verificarResposta(alternativa)
+      );
+
+      alternativas.appendChild(botao);
+    });
+  }
+
+  const feedback = elemento("feedback");
+
+  if (feedback) {
+    feedback.textContent = "";
+    feedback.className = "feedback";
+  }
+
+  const proxima = elemento("proxima");
 
   if (proxima) {
     proxima.style.display = "none";
   }
 
-
-  criarAlternativas(estrutura);
+  atualizarProgresso();
 }
 
 
-// ============================================================
-// CRIAR ALTERNATIVAS
-// ============================================================
+/* ============================================================
+   PROGRESSO
+   ============================================================ */
 
-function criarAlternativas(correta) {
+function atualizarProgresso() {
 
-  const container =
-    document.getElementById("alternativas");
+  const progresso =
+    elemento("progresso");
 
-  if (!container) {
-    return;
+  if (progresso) {
+
+    progresso.textContent =
+      `Questão ${indicePergunta + 1} de ${perguntasJogo.length}`;
   }
 
-  container.innerHTML = "";
+  const pontuacaoEl =
+    elemento("pontuacao");
 
+  if (pontuacaoEl) {
 
-  // SOMENTE ESTRUTURAS DO MESMO SISTEMA
-
-  let outras =
-    estruturas.filter(
-      item =>
-        item.sistema === correta.sistema &&
-        item.id !== correta.id
-    );
-
-
-  // PRIORIZAR OUTRAS PÁGINAS
-
-  const outrasPaginas =
-    outras.filter(
-      item =>
-        item.pagina !== correta.pagina
-    );
-
-
-  if (outrasPaginas.length >= 3) {
-    outras = outrasPaginas;
+    pontuacaoEl.textContent =
+      `Pontuação: ${pontuacao}`;
   }
-
-
-  const erradas =
-    embaralhar(outras).slice(0, 3);
-
-
-  const opcoes =
-    embaralhar([
-      correta,
-      ...erradas
-    ]);
-
-
-  opcoes.forEach(opcao => {
-
-    const botao =
-      document.createElement("button");
-
-    botao.type =
-      "button";
-
-    botao.textContent =
-      opcao.nome;
-
-    botao.dataset.id =
-      opcao.id;
-
-    botao.addEventListener(
-      "click",
-      function () {
-
-        responder(
-          opcao.id,
-          correta.id,
-          botao
-        );
-
-      }
-    );
-
-    container.appendChild(botao);
-
-  });
 }
 
 
-// ============================================================
-// RESPONDER
-// ============================================================
+/* ============================================================
+   VERIFICAR RESPOSTA
+   ============================================================ */
 
-function responder(
-  idEscolhido,
-  idCorreto,
-  botao
-) {
+function verificarResposta(respostaSelecionada) {
 
-  if (respondeu) {
+  if (respondida) {
     return;
   }
 
-  respondeu = true;
+  respondida = true;
 
+  const questao =
+    perguntasJogo[indicePergunta];
 
-  const feedback =
-    document.getElementById("feedback");
+  const correta =
+    respostaSelecionada === questao.resposta;
 
-  const proxima =
-    document.getElementById("proxima");
+  if (correta) {
+    pontuacao++;
+  }
 
   const botoes =
     document.querySelectorAll(
       "#alternativas button"
     );
 
+  botoes.forEach(botao => {
 
-  botoes.forEach(
-    botaoAtual => {
-      botaoAtual.disabled = true;
+    botao.disabled = true;
+
+    const texto =
+      botao.textContent
+        .replace(/^[A-D]\)\s*/, "");
+
+    if (texto === questao.resposta) {
+      botao.classList.add("correta");
     }
+
+    if (
+      texto === respostaSelecionada &&
+      !correta
+    ) {
+      botao.classList.add("incorreta");
+    }
+  });
+
+
+  mostrarFeedback(
+    correta,
+    questao
   );
 
-
-  const correta =
-    estruturas.find(
-      item =>
-        item.id === idCorreto
-    );
-
-
-  // CORRETA
-
-  if (idEscolhido === idCorreto) {
-
-    pontuacao++;
-
-
-    if (feedback) {
-
-      feedback.textContent =
-        "✅ Resposta correta!";
-
-      feedback.className =
-        "feedback correta";
-    }
-
-
-    if (botao) {
-
-      botao.classList.add(
-        "correta"
-      );
-    }
-
-  }
-
-
-  // INCORRETA
-
-  else {
-
-    if (feedback) {
-
-      feedback.textContent =
-        `❌ Resposta incorreta. A resposta correta é: ${correta.nome}`;
-
-      feedback.className =
-        "feedback incorreta";
-    }
-
-
-    if (botao) {
-
-      botao.classList.add(
-        "incorreta"
-      );
-    }
-
-
-    botoes.forEach(
-      botaoAtual => {
-
-        if (
-          botaoAtual.dataset.id ===
-          idCorreto
-        ) {
-
-          botaoAtual.classList.add(
-            "correta"
-          );
-        }
-
-      }
-    );
-
-  }
-
-
-  atualizarPontuacao();
-
+  const proxima =
+    elemento("proxima");
 
   if (proxima) {
-    proxima.style.display =
-      "block";
+    proxima.style.display = "block";
   }
+
+  atualizarProgresso();
 }
 
 
-// ============================================================
-// MODO ESTUDAR
-// ============================================================
+/* ============================================================
+   FEEDBACK
+   ============================================================ */
 
-function mostrarRespostaEstudo(correta) {
+function mostrarFeedback(correta, questao) {
 
-  if (respondeu) {
+  const feedback =
+    elemento("feedback");
+
+  if (!feedback) {
     return;
   }
 
-  respondeu = true;
+  feedback.className =
+    correta
+      ? "feedback correto"
+      : "feedback incorreto";
 
-  const feedback =
-    document.getElementById("feedback");
+  if (correta) {
 
-  const proxima =
-    document.getElementById("proxima");
+    feedback.innerHTML = `
+      <strong>✅ CORRETO!</strong>
+      <br><br>
+      <strong>${questao.resposta}</strong>
+      <br><br>
+      ${questao.funcao}
+      <br><br>
+      <small>
+        🧠 Tente explicar essa função com suas próprias palavras.
+        Isso ajuda na fixação.
+      </small>
+    `;
 
+  } else {
 
-  if (feedback) {
-
-    feedback.textContent =
-      `Resposta: ${correta.nome}`;
-
-    feedback.className =
-      "feedback correta";
-  }
-
-
-  if (proxima) {
-    proxima.style.display =
-      "block";
-  }
-}
-
-
-// ============================================================
-// PRÓXIMA QUESTÃO
-// ============================================================
-
-function proximaQuestao() {
-
-  indiceAtual++;
-
-  respondeu = false;
-
-  carregarQuestao();
-}
-
-
-// ============================================================
-// ATUALIZAR PONTUAÇÃO
-// ============================================================
-
-function atualizarPontuacao() {
-
-  const pontos =
-    document.getElementById("pontuacao");
-
-  if (pontos) {
-
-    pontos.textContent =
-      `Pontos: ${pontuacao}`;
+    feedback.innerHTML = `
+      <strong>❌ INCORRETO!</strong>
+      <br><br>
+      A resposta correta é:
+      <strong>${questao.resposta}</strong>
+      <br><br>
+      ${questao.funcao}
+      <br><br>
+      <small>
+        🔁 Não passe simplesmente para a próxima.
+        Leia novamente a função e tente relacioná-la
+        com a posição da estrutura na imagem.
+      </small>
+    `;
   }
 }
 
 
-// ============================================================
-// RESULTADO
-// ============================================================
+/* ============================================================
+   PRÓXIMA QUESTÃO
+   ============================================================ */
 
-function mostrarResultado() {
+function proximaPergunta() {
+
+  if (!respondida) {
+    return;
+  }
+
+  indicePergunta++;
+
+  mostrarPergunta();
+}
+
+
+/* ============================================================
+   FINALIZAR
+   ============================================================ */
+
+function finalizarJogo() {
 
   mostrarTela("resultado");
 
-
   const resultado =
-    document.getElementById(
-      "resultadoPontuacao"
-    );
-
+    elemento("resultado");
 
   if (resultado) {
 
-    resultado.textContent =
-      `Você acertou ${pontuacao} de ${perguntas.length} questões.`;
-  }
+    const total =
+      perguntasJogo.length;
 
+    const percentual =
+      total > 0
+        ? Math.round((pontuacao / total) * 100)
+        : 0;
 
-  const progresso =
-    document.getElementById(
-      "progresso"
-    );
+    let mensagem = "";
 
+    if (percentual >= 90) {
 
-  if (progresso) {
-    progresso.style.width =
-      "100%";
+      mensagem =
+        "🔥 Excelente! Você está dominando as estruturas.";
+
+    } else if (percentual >= 75) {
+
+      mensagem =
+        "👏 Muito bom! Continue revisando as estruturas que errou.";
+
+    } else if (percentual >= 60) {
+
+      mensagem =
+        "📚 Bom trabalho! Ainda vale reforçar funções e relações anatômicas.";
+
+    } else {
+
+      mensagem =
+        "🧠 Continue estudando. O objetivo é transformar o raciocínio em memória.";
+
+    }
+
+    resultado.innerHTML = `
+      <h2>Resultado</h2>
+
+      <p>
+        Você acertou
+        <strong>${pontuacao}</strong>
+        de
+        <strong>${total}</strong>
+        questões.
+      </p>
+
+      <p>
+        Aproveitamento:
+        <strong>${percentual}%</strong>
+      </p>
+
+      <p>
+        ${mensagem}
+      </p>
+    `;
   }
 }
 
 
-// ============================================================
-// SAIR DO JOGO
-// ============================================================
+/* ============================================================
+   VOLTAR AO MENU
+   ============================================================ */
 
-function sairJogo() {
-
-  sistemaAtual = null;
-  modoAtual = null;
-  perguntas = [];
-  indiceAtual = 0;
-  pontuacao = 0;
-  respondeu = false;
+function voltarMenu() {
 
   mostrarTela("menu");
+
+  perguntasJogo = [];
+  indicePergunta = 0;
+  pontuacao = 0;
+  respondida = false;
 }
 
 
-// ============================================================
-// JOGAR NOVAMENTE
-// ============================================================
+/* ============================================================
+   CONFIGURAÇÃO
+   ============================================================ */
 
-function jogarNovamente() {
-
-  indiceAtual = 0;
-  pontuacao = 0;
-  respondeu = false;
-
-  if (!sistemaAtual) {
-    sistemaAtual = "ambos";
-  }
+function abrirConfiguracao() {
 
   mostrarTela("configuracao");
 }
 
 
-// ============================================================
-// INICIALIZAÇÃO
-// ============================================================
+function selecionarSistema(sistema) {
+
+  sistemaAtual = sistema;
+
+  const nome =
+    elemento("sistemaSelecionado");
+
+  if (nome) {
+
+    nome.textContent =
+      sistema === "respiratorio"
+        ? "Sistema Respiratório"
+        : "Sistema Digestório";
+  }
+}
+
+
+/* ============================================================
+   FUNÇÕES DE COMPATIBILIDADE
+   ============================================================ */
+
+/*
+   Alguns botões do HTML podem chamar funções antigas.
+   Mantemos essas funções para evitar que o jogo pare de funcionar.
+*/
+
+function iniciarRespiratorio(modo = "treinar") {
+
+  iniciarJogo(
+    modo,
+    "respiratorio"
+  );
+}
+
+
+function iniciarDigestorio(modo = "treinar") {
+
+  iniciarJogo(
+    modo,
+    "digestorio"
+  );
+}
+
+
+function estudarRespiratorio() {
+
+  iniciarJogo(
+    "estudar",
+    "respiratorio"
+  );
+}
+
+
+function estudarDigestorio() {
+
+  iniciarJogo(
+    "estudar",
+    "digestorio"
+  );
+}
+
+
+function treinarRespiratorio() {
+
+  iniciarJogo(
+    "treinar",
+    "respiratorio"
+  );
+}
+
+
+function treinarDigestorio() {
+
+  iniciarJogo(
+    "treinar",
+    "digestorio"
+  );
+}
+
+
+function simuladoRespiratorio() {
+
+  iniciarJogo(
+    "simulado",
+    "respiratorio"
+  );
+}
+
+
+function simuladoDigestorio() {
+
+  iniciarJogo(
+    "simulado",
+    "digestorio"
+  );
+}
+
+
+/* ============================================================
+   EVENTOS
+   ============================================================ */
 
 document.addEventListener(
   "DOMContentLoaded",
-  function () {
+  () => {
+
+    /*
+      Botão "Próxima"
+    */
+
+    const proxima =
+      elemento("proxima");
+
+    if (proxima) {
+
+      proxima.addEventListener(
+        "click",
+        proximaPergunta
+      );
+    }
+
+
+    /*
+      Botões de voltar, caso existam.
+    */
+
+    const voltar =
+      elemento("voltar");
+
+    if (voltar) {
+
+      voltar.addEventListener(
+        "click",
+        voltarMenu
+      );
+    }
+
+
+    /*
+      Se o HTML já estiver mostrando o menu,
+      não fazemos nada.
+    */
 
     mostrarTela("menu");
-
   }
 );
+
+
+/* ============================================================
+   EXPORTAÇÃO GLOBAL
+   ============================================================ */
+
+/*
+   Necessário caso o index.html utilize onclick="..."
+*/
+
+window.iniciarJogo = iniciarJogo;
+window.iniciarRespiratorio = iniciarRespiratorio;
+window.iniciarDigestorio = iniciarDigestorio;
+
+window.estudarRespiratorio = estudarRespiratorio;
+window.estudarDigestorio = estudarDigestorio;
+
+window.treinarRespiratorio = treinarRespiratorio;
+window.treinarDigestorio = treinarDigestorio;
+
+window.simuladoRespiratorio = simuladoRespiratorio;
+window.simuladoDigestorio = simuladoDigestorio;
+
+window.proximaPergunta = proximaPergunta;
+window.voltarMenu = voltarMenu;
+window.abrirConfiguracao = abrirConfiguracao;
+window.selecionarSistema = selecionarSistema;
+
+
+/* ============================================================
+   FIM DO GAME.JS
+   ============================================================ */
