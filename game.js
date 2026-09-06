@@ -396,22 +396,25 @@ function carregarQuestao() {
   }
 
 
-  // Imagem
+// ============================================================
+// IMAGEM DO PDF
+// ============================================================
 
-  if (imagem) {
+if (imagem) {
 
-    imagem.style.display = "none";
-    imagem.removeAttribute("src");
-  }
+  const numeroPagina = String(estrutura.pagina).padStart(2, "0");
 
-  if (semImagem) {
+  imagem.src = `pagina-${numeroPagina}.jpg`;
+  imagem.alt = `Imagem anatômica - página ${estrutura.pagina} do PDF`;
+  imagem.style.display = "block";
 
-    semImagem.style.display = "block";
+}
 
-    semImagem.textContent =
-      `Imagem da página ${estrutura.pagina} do PDF será adicionada nesta etapa.`;
-  }
+if (semImagem) {
 
+  semImagem.style.display = "none";
+
+}
 
   // Marcador
 
