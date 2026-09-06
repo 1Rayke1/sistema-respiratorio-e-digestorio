@@ -1,109 +1,107 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Anatomia em Jogo</title>
 
-    <meta
-        name="description"
-        content="Jogo educativo de Anatomia sobre o Sistema Digestório e o Sistema Respiratório."
-    >
-
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <header class="topo">
-        <div class="logo">
-            🧠 Anatomia em Jogo
-        </div>
+    <!-- =========================
+         MENU PRINCIPAL
+    ========================== -->
 
-        <p>
-            Sistema Digestório e Sistema Respiratório
-        </p>
-    </header>
+    <main id="menu" class="tela ativa">
 
+        <div class="container">
 
-    <main>
+            <header class="cabecalho">
 
-        <!-- MENU PRINCIPAL -->
-        <section id="menu" class="tela ativa">
-
-            <div class="apresentacao">
-
-                <span class="icone-principal">🫁</span>
-
-                <h1>Estude Anatomia</h1>
+                <h1>🫁 Anatomia em Jogo</h1>
 
                 <p>
-                    Aprenda a identificar estruturas do
-                    Sistema Digestório e do Sistema Respiratório.
+                    Estude e teste seus conhecimentos de Anatomia Humana
                 </p>
 
-            </div>
+            </header>
 
 
-            <div class="sistemas">
+            <section class="selecao-sistemas">
 
-                <button
-                    class="card-sistema"
-                    onclick="selecionarSistema('respiratorio')"
-                >
+                <h2>Escolha o sistema</h2>
 
-                    <span>🫁</span>
+                <div class="sistemas">
 
-                    <strong>
-                        Sistema Respiratório
-                    </strong>
+                    <button
+                        type="button"
+                        class="card-sistema"
+                        onclick="selecionarSistema('respiratorio')">
 
-                    <small>
-                        Identifique as principais estruturas
-                        relacionadas à respiração.
-                    </small>
+                        <span class="icone">🫁</span>
 
-                </button>
+                        <strong>Sistema Respiratório</strong>
 
+                        <small>
+                            Nariz, faringe, laringe,
+                            traqueia, brônquios e pulmões
+                        </small>
 
-                <button
-                    class="card-sistema"
-                    onclick="selecionarSistema('digestorio')"
-                >
-
-                    <span>🫃</span>
-
-                    <strong>
-                        Sistema Digestório
-                    </strong>
-
-                    <small>
-                        Identifique as principais estruturas
-                        do sistema digestório.
-                    </small>
-
-                </button>
-
-            </div>
-
-        </section>
+                    </button>
 
 
-        <!-- ESCOLHA DO MODO -->
-        <section id="configuracao" class="tela">
+                    <button
+                        type="button"
+                        class="card-sistema"
+                        onclick="selecionarSistema('digestorio')">
 
-            <div class="painel">
+                        <span class="icone">🫃</span>
 
-                <button
-                    class="voltar"
-                    onclick="voltarMenu()"
-                >
-                    ← Voltar
-                </button>
+                        <strong>Sistema Digestório</strong>
+
+                        <small>
+                            Boca, faringe, esôfago,
+                            estômago, intestinos e órgãos acessórios
+                        </small>
+
+                    </button>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+
+    <!-- =========================
+         CONFIGURAÇÃO
+    ========================== -->
+
+    <main id="configuracao" class="tela">
+
+        <div class="container configuracao">
+
+            <button
+                type="button"
+                class="botao-voltar"
+                onclick="voltarMenu()">
+
+                ← Voltar
+
+            </button>
+
+
+            <div class="config-box">
 
                 <h2 id="tituloSistema">
-                    Sistema
+                    Sistema Respiratório
                 </h2>
 
                 <p>
@@ -114,54 +112,48 @@
                 <div class="modos">
 
                     <button
-                        class="modo"
-                        onclick="iniciarJogo('estudar')"
-                    >
+                        type="button"
+                        class="botao-modo"
+                        onclick="iniciarJogo('estudar')">
 
                         <span>📚</span>
 
-                        <strong>
-                            Estudar
-                        </strong>
+                        <strong>Estudar</strong>
 
                         <small>
-                            Conheça as estruturas e seus nomes.
+                            Todas as estruturas do sistema
                         </small>
 
                     </button>
 
 
                     <button
-                        class="modo"
-                        onclick="iniciarJogo('treinar')"
-                    >
+                        type="button"
+                        class="botao-modo"
+                        onclick="iniciarJogo('treinar')">
 
                         <span>🎯</span>
 
-                        <strong>
-                            Treinar
-                        </strong>
+                        <strong>Treinar</strong>
 
                         <small>
-                            Identifique as estruturas anatômicas.
+                            20 questões aleatórias
                         </small>
 
                     </button>
 
 
                     <button
-                        class="modo"
-                        onclick="iniciarJogo('simulado')"
-                    >
+                        type="button"
+                        class="botao-modo"
+                        onclick="iniciarJogo('simulado')">
 
-                        <span>📝</span>
+                        <span>🏆</span>
 
-                        <strong>
-                            Simulado
-                        </strong>
+                        <strong>Simulado</strong>
 
                         <small>
-                            Teste seus conhecimentos.
+                            Teste seus conhecimentos
                         </small>
 
                     </button>
@@ -170,171 +162,239 @@
 
             </div>
 
-        </section>
+        </div>
+
+    </main>
 
 
-        <!-- JOGO -->
-        <section id="jogo" class="tela">
 
-            <div class="cabecalho-jogo">
+    <!-- =========================
+         JOGO
+    ========================== -->
+
+    <main id="jogo" class="tela">
+
+        <div class="container jogo-container">
+
+
+            <!-- TOPO -->
+
+            <div class="topo-jogo">
 
                 <button
-                    class="botao-secundario"
-                    onclick="sairJogo()"
-                >
-                    ← Sair
+                    type="button"
+                    class="botao-sair"
+                    onclick="sairJogo()">
+
+                    ✕ Sair
+
                 </button>
 
-                <div id="contador">
+
+                <div
+                    id="contador"
+                    class="contador">
+
                     Questão 1
+
                 </div>
 
-                <div id="pontuacao">
-                    0 pontos
+
+                <div
+                    id="pontuacao"
+                    class="pontuacao">
+
+                    Pontuação: 0
+
                 </div>
 
             </div>
 
+
+            <!-- BARRA DE PROGRESSO -->
 
             <div class="barra-progresso">
 
                 <div
                     id="progresso"
-                    class="progresso"
-                ></div>
+                    class="progresso">
+                </div>
 
             </div>
 
 
-            <div class="cartao-questao">
+            <!-- PERGUNTA -->
 
-                <h2 id="pergunta">
-                    Qual estrutura está indicada?
-                </h2>
+            <section class="questao">
 
-
-                <!-- ÁREA DA IMAGEM -->
                 <div
-                    id="areaAnatomica"
-                    class="area-anatomica"
-                >
+                    id="pergunta"
+                    class="pergunta">
+
+                    Carregando pergunta...
+
+                </div>
+
+            </section>
+
+
+            <!-- IMAGEM -->
+
+            <section class="imagem-area">
+
+                <div class="imagem-container">
 
                     <img
                         id="imagemAnatomica"
                         src=""
-                        alt="Estrutura anatômica"
-                    >
-
-                    <!-- Marcador será colocado pelo JavaScript -->
-                    <div
-                        id="marcador"
-                        class="marcador"
-                    ></div>
-
+                        alt="Imagem anatômica">
 
                     <div
                         id="semImagem"
-                        class="sem-imagem"
-                    >
+                        class="sem-imagem">
 
-                        <span>🫁</span>
+                        Imagem não disponível.
 
-                        <strong>
-                            Imagem anatômica
-                        </strong>
+                    </div>
 
-                        <small>
-                            A imagem desta estrutura será
-                            adicionada ao projeto.
-                        </small>
+                    <!--
+                        Mantido apenas por compatibilidade
+                        com versões anteriores.
+                        O JavaScript não cria setas.
+                    -->
 
+                    <div
+                        id="marcador"
+                        style="display:none;">
                     </div>
 
                 </div>
 
-
-                <!-- ALTERNATIVAS -->
-                <div
-                    id="alternativas"
-                    class="alternativas"
-                ></div>
+            </section>
 
 
-                <!-- FEEDBACK -->
-                <div
-                    id="feedback"
-                    class="feedback"
-                ></div>
+            <!-- ALTERNATIVAS -->
+
+            <section
+                id="alternativas"
+                class="alternativas">
+
+            </section>
 
 
-                <button
-                    id="proxima"
-                    class="botao-principal"
-                    onclick="proximaQuestao()"
-                    style="display: none;"
-                >
-                    Próxima questão →
-                </button>
+            <!-- FEEDBACK -->
+
+            <div
+                id="feedback"
+                class="feedback">
 
             </div>
 
-        </section>
+
+            <!-- PRÓXIMA -->
+
+            <button
+                type="button"
+                id="proxima"
+                class="botao-proxima"
+                onclick="proximaQuestao()">
+
+                Próxima questão
+
+            </button>
+
+        </div>
+
+    </main>
 
 
-        <!-- RESULTADO -->
-        <section id="resultado" class="tela">
 
-            <div class="resultado">
+    <!-- =========================
+         RESULTADO
+    ========================== -->
 
-                <span>🏆</span>
+    <main id="resultado" class="tela">
+
+        <div class="container resultado-container">
+
+            <div class="resultado-box">
+
+                <div class="trofeu">
+                    🏆
+                </div>
+
 
                 <h2>
                     Resultado
                 </h2>
 
+
                 <div
                     id="porcentagem"
-                    class="porcentagem"
-                >
+                    class="porcentagem">
+
                     0%
+
                 </div>
 
-                <p id="mensagemResultado">
-                    Resultado do seu estudo.
+
+                <p
+                    id="mensagemResultado"
+                    class="mensagem-resultado">
+
+                    Resultado do seu desempenho.
+
                 </p>
 
 
                 <div class="botoes-resultado">
 
                     <button
-                        class="botao-secundario"
-                        onclick="voltarMenu()"
-                    >
-                        Menu principal
+                        type="button"
+                        onclick="jogarNovamente()"
+                        class="botao-principal">
+
+                        🔄 Jogar novamente
+
                     </button>
 
+
                     <button
-                        class="botao-principal"
-                        onclick="jogarNovamente()"
-                    >
-                        Jogar novamente
+                        type="button"
+                        onclick="voltarMenu()"
+                        class="botao-secundario">
+
+                        🏠 Voltar ao menu
+
                     </button>
 
                 </div>
 
             </div>
 
-        </section>
+        </div>
 
     </main>
 
 
+
+    <!-- =========================
+         RODAPÉ
+    ========================== -->
+
     <footer>
+
         Desenvolvedor: Rayke Jovino de Souza
+
     </footer>
 
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
 
     <script src="game.js"></script>
 
 </body>
+
 </html>
