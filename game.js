@@ -1,204 +1,12 @@
 // ============================================================
 // ANATOMIA EM JOGO
-// Base de estruturas retirada do PDF
-// SISTEMA RESPIRATÓRIO + SISTEMA DIGESTÓRIO
+// SISTEMA RESPIRATÓRIO E SISTEMA DIGESTÓRIO
 // Desenvolvedor: Rayke Jovino de Souza
 // ============================================================
 
-const estruturas = [
-
-  // ==========================================================
-  // SISTEMA RESPIRATÓRIO
-  // ==========================================================
-
-  { id:"resp-01", sistema:"respiratorio", nome:"Nariz externo", pagina:2 },
-  { id:"resp-02", sistema:"respiratorio", nome:"Raiz", pagina:2 },
-  { id:"resp-03", sistema:"respiratorio", nome:"Dorso", pagina:2 },
-  { id:"resp-04", sistema:"respiratorio", nome:"Ápice", pagina:2 },
-
-  { id:"resp-05", sistema:"respiratorio", nome:"Asas", pagina:3 },
-  { id:"resp-06", sistema:"respiratorio", nome:"Base", pagina:3 },
-  { id:"resp-07", sistema:"respiratorio", nome:"Narina", pagina:3 },
-  { id:"resp-08", sistema:"respiratorio", nome:"Cavidade nasal", pagina:4 },
-
-  { id:"resp-09", sistema:"respiratorio", nome:"Abertura piriforme", pagina:4 },
-  { id:"resp-10", sistema:"respiratorio", nome:"Coanas", pagina:4 },
-
-  { id:"resp-11", sistema:"respiratorio", nome:"Concha nasal superior", pagina:5 },
-  { id:"resp-12", sistema:"respiratorio", nome:"Concha nasal média", pagina:5 },
-  { id:"resp-13", sistema:"respiratorio", nome:"Concha nasal inferior", pagina:5 },
-
-  { id:"resp-14", sistema:"respiratorio", nome:"Meato nasal superior", pagina:6 },
-  { id:"resp-15", sistema:"respiratorio", nome:"Meato nasal médio", pagina:6 },
-  { id:"resp-16", sistema:"respiratorio", nome:"Meato nasal inferior", pagina:6 },
-
-  { id:"resp-17", sistema:"respiratorio", nome:"Epitélio olfatório", pagina:7 },
-  { id:"resp-18", sistema:"respiratorio", nome:"Nervo olfatório", pagina:7 },
-  { id:"resp-19", sistema:"respiratorio", nome:"Ducto nasolacrimal", pagina:7 },
-
-  { id:"resp-20", sistema:"respiratorio", nome:"Seio frontal", pagina:9 },
-  { id:"resp-21", sistema:"respiratorio", nome:"Seio esfenoidal", pagina:9 },
-  { id:"resp-22", sistema:"respiratorio", nome:"Seios etmoidais", pagina:9 },
-  { id:"resp-23", sistema:"respiratorio", nome:"Seios maxilares", pagina:9 },
-
-  { id:"resp-24", sistema:"respiratorio", nome:"Tórus tubal", pagina:10 },
-  { id:"resp-25", sistema:"respiratorio", nome:"Óstio faríngeo da tuba auditiva", pagina:10 },
-  { id:"resp-26", sistema:"respiratorio", nome:"Faringe", pagina:10 },
-
-  { id:"resp-27", sistema:"respiratorio", nome:"Nasofaringe", pagina:11 },
-  { id:"resp-28", sistema:"respiratorio", nome:"Orofaringe", pagina:11 },
-  { id:"resp-29", sistema:"respiratorio", nome:"Laringofaringe", pagina:11 },
-
-  { id:"resp-30", sistema:"respiratorio", nome:"Tonsilas faríngeas", pagina:12 },
-
-  { id:"resp-31", sistema:"respiratorio", nome:"Epiglote", pagina:13 },
-  { id:"resp-32", sistema:"respiratorio", nome:"Prega vestibular", pagina:13 },
-  { id:"resp-33", sistema:"respiratorio", nome:"Prega vocal", pagina:13 },
-  { id:"resp-34", sistema:"respiratorio", nome:"Laringe", pagina:13 },
-
-  { id:"resp-35", sistema:"respiratorio", nome:"Cartilagem epiglótica", pagina:15 },
-  { id:"resp-36", sistema:"respiratorio", nome:"Cartilagem da tireóide", pagina:15 },
-  { id:"resp-37", sistema:"respiratorio", nome:"Cartilagem cricóide", pagina:15 },
-
-  { id:"resp-38", sistema:"respiratorio", nome:"Cartilagem corniculada", pagina:16 },
-  { id:"resp-39", sistema:"respiratorio", nome:"Cartilagem aritenóide", pagina:16 },
-
-  { id:"resp-40", sistema:"respiratorio", nome:"Anéis cartilaginosos", pagina:17 },
-  { id:"resp-41", sistema:"respiratorio", nome:"Ligamentos anulares", pagina:17 },
-  { id:"resp-42", sistema:"respiratorio", nome:"Parede posterior da traquéia", pagina:17 },
-  { id:"resp-43", sistema:"respiratorio", nome:"Carina", pagina:17 },
-  { id:"resp-44", sistema:"respiratorio", nome:"Traquéia", pagina:17 },
-
-  { id:"resp-45", sistema:"respiratorio", nome:"Brônquio principal esquerdo", pagina:18 },
-  { id:"resp-46", sistema:"respiratorio", nome:"Brônquio principal direito", pagina:18 },
-  { id:"resp-47", sistema:"respiratorio", nome:"Brônquio lobar superior direito", pagina:18 },
-  { id:"resp-48", sistema:"respiratorio", nome:"Brônquio lobar médio direito", pagina:18 },
-  { id:"resp-49", sistema:"respiratorio", nome:"Brônquio lobar inferior direito", pagina:18 },
-
-  { id:"resp-50", sistema:"respiratorio", nome:"Brônquio lobar superior esquerdo", pagina:20 },
-  { id:"resp-51", sistema:"respiratorio", nome:"Brônquio lobar inferior esquerdo", pagina:20 },
-
-  { id:"resp-52", sistema:"respiratorio", nome:"Brônquios segmentares", pagina:21 },
-  { id:"resp-53", sistema:"respiratorio", nome:"Bronquíolos", pagina:21 },
-
-  { id:"resp-54", sistema:"respiratorio", nome:"Lobo superior esquerdo", pagina:22 },
-  { id:"resp-55", sistema:"respiratorio", nome:"Lobo inferior esquerdo", pagina:22 },
-  { id:"resp-56", sistema:"respiratorio", nome:"Fissura oblíqua", pagina:22 },
-
-  { id:"resp-57", sistema:"respiratorio", nome:"Lobo superior direito", pagina:23 },
-  { id:"resp-58", sistema:"respiratorio", nome:"Fissura horizontal", pagina:23 },
-  { id:"resp-59", sistema:"respiratorio", nome:"Lobo médio", pagina:23 },
-  { id:"resp-60", sistema:"respiratorio", nome:"Lobo inferior direito", pagina:23 },
-
-  { id:"resp-61", sistema:"respiratorio", nome:"Base", pagina:24 },
-  { id:"resp-62", sistema:"respiratorio", nome:"Ápice", pagina:24 },
-
-  { id:"resp-63", sistema:"respiratorio", nome:"Face costal", pagina:25 },
-  { id:"resp-64", sistema:"respiratorio", nome:"Face diafragmática", pagina:25 },
-  { id:"resp-65", sistema:"respiratorio", nome:"Face medial", pagina:25 },
-
-  { id:"resp-66", sistema:"respiratorio", nome:"Hilo pulmonar", pagina:26 },
-
-
-  // ==========================================================
-  // SISTEMA DIGESTÓRIO
-  // ==========================================================
-
-  { id:"dig-01", sistema:"digestorio", nome:"Cavidade bucal", pagina:28 },
-  { id:"dig-02", sistema:"digestorio", nome:"Lábio superior", pagina:28 },
-  { id:"dig-03", sistema:"digestorio", nome:"Lábio inferior", pagina:28 },
-  { id:"dig-04", sistema:"digestorio", nome:"Vestíbulo bucal", pagina:28 },
-  { id:"dig-05", sistema:"digestorio", nome:"Arcada dentária", pagina:28 },
-
-  { id:"dig-06", sistema:"digestorio", nome:"Língua (musculatura intrínseca)", pagina:29 },
-  { id:"dig-07", sistema:"digestorio", nome:"Língua (musculatura extrínseca)", pagina:29 },
-  { id:"dig-08", sistema:"digestorio", nome:"Palato duro", pagina:29 },
-  { id:"dig-09", sistema:"digestorio", nome:"Palato mole", pagina:29 },
-  { id:"dig-10", sistema:"digestorio", nome:"Úvula palatina", pagina:29 },
-  { id:"dig-11", sistema:"digestorio", nome:"Rima labial", pagina:29 },
-
-  { id:"dig-12", sistema:"digestorio", nome:"Faringe", pagina:30 },
-  { id:"dig-13", sistema:"digestorio", nome:"Nasofaringe", pagina:30 },
-  { id:"dig-14", sistema:"digestorio", nome:"Orofaringe", pagina:30 },
-  { id:"dig-15", sistema:"digestorio", nome:"Laringofaringe", pagina:30 },
-
-  { id:"dig-16", sistema:"digestorio", nome:"Esôfago", pagina:31 },
-
-  { id:"dig-17", sistema:"digestorio", nome:"Estômago", pagina:32 },
-  { id:"dig-18", sistema:"digestorio", nome:"Pregas gástricas", pagina:32 },
-  { id:"dig-19", sistema:"digestorio", nome:"Óstio cárdico", pagina:32 },
-  { id:"dig-20", sistema:"digestorio", nome:"Óstio pilórico", pagina:32 },
-
-  { id:"dig-21", sistema:"digestorio", nome:"Região cárdia", pagina:33 },
-  { id:"dig-22", sistema:"digestorio", nome:"Região pilórica", pagina:33 },
-
-  { id:"dig-23", sistema:"digestorio", nome:"Fundo do estômago", pagina:34 },
-  { id:"dig-24", sistema:"digestorio", nome:"Corpo do estômago", pagina:34 },
-  { id:"dig-25", sistema:"digestorio", nome:"Curvatura menor do estômago", pagina:34 },
-  { id:"dig-26", sistema:"digestorio", nome:"Curvatura maior do estômago", pagina:34 },
-
-  { id:"dig-27", sistema:"digestorio", nome:"Intestino delgado", pagina:35 },
-  { id:"dig-28", sistema:"digestorio", nome:"Duodeno", pagina:35 },
-  { id:"dig-29", sistema:"digestorio", nome:"Ampola duodenal", pagina:35 },
-  { id:"dig-30", sistema:"digestorio", nome:"Pregas circulares do duodeno", pagina:35 },
-  { id:"dig-31", sistema:"digestorio", nome:"Flexura duodenojejunal", pagina:35 },
-
-  { id:"dig-32", sistema:"digestorio", nome:"Jejuno", pagina:36 },
-  { id:"dig-33", sistema:"digestorio", nome:"Íleo", pagina:36 },
-
-  { id:"dig-34", sistema:"digestorio", nome:"Ceco", pagina:37 },
-  { id:"dig-35", sistema:"digestorio", nome:"Junção ileo-ceco-cólica", pagina:37 },
-
-  { id:"dig-36", sistema:"digestorio", nome:"Colo sigmóide", pagina:38 },
-  { id:"dig-37", sistema:"digestorio", nome:"Intestino grosso", pagina:38 },
-  { id:"dig-38", sistema:"digestorio", nome:"Colo ascendente", pagina:38 },
-  { id:"dig-39", sistema:"digestorio", nome:"Colo transverso", pagina:38 },
-  { id:"dig-40", sistema:"digestorio", nome:"Colo descendente", pagina:38 },
-
-  { id:"dig-41", sistema:"digestorio", nome:"Haustros", pagina:39 },
-  { id:"dig-42", sistema:"digestorio", nome:"Apêndice vermiforme", pagina:39 },
-  { id:"dig-43", sistema:"digestorio", nome:"Canal retal", pagina:39 },
-  { id:"dig-44", sistema:"digestorio", nome:"Ânus", pagina:39 },
-  { id:"dig-45", sistema:"digestorio", nome:"Tênia", pagina:39 },
-
-  { id:"dig-46", sistema:"digestorio", nome:"Fígado", pagina:40 },
-  { id:"dig-47", sistema:"digestorio", nome:"Lobo direito", pagina:40 },
-  { id:"dig-48", sistema:"digestorio", nome:"Lobo esquerdo", pagina:40 },
-  { id:"dig-49", sistema:"digestorio", nome:"Lobo caudado", pagina:40 },
-  { id:"dig-50", sistema:"digestorio", nome:"Lobo quadrado", pagina:40 },
-
-  { id:"dig-51", sistema:"digestorio", nome:"Veia porta hepática", pagina:41 },
-  { id:"dig-52", sistema:"digestorio", nome:"Ligamento falciforme", pagina:41 },
-  { id:"dig-53", sistema:"digestorio", nome:"Artéria hepática própria", pagina:41 },
-  { id:"dig-54", sistema:"digestorio", nome:"Vesícula biliar", pagina:41 },
-
-  { id:"dig-55", sistema:"digestorio", nome:"Ductos biliares", pagina:42 },
-  { id:"dig-56", sistema:"digestorio", nome:"Ducto cístico", pagina:42 },
-  { id:"dig-57", sistema:"digestorio", nome:"Ducto hepático direito", pagina:42 },
-  { id:"dig-58", sistema:"digestorio", nome:"Ducto hepático esquerdo", pagina:42 },
-  { id:"dig-59", sistema:"digestorio", nome:"Ducto hepático comum", pagina:42 },
-  { id:"dig-60", sistema:"digestorio", nome:"Ducto colédoco", pagina:42 },
-  { id:"dig-61", sistema:"digestorio", nome:"Ducto hepatopancreático", pagina:42 },
-
-  { id:"dig-62", sistema:"digestorio", nome:"Pâncreas", pagina:43 },
-  { id:"dig-63", sistema:"digestorio", nome:"Cabeça do pâncreas", pagina:43 },
-  { id:"dig-64", sistema:"digestorio", nome:"Corpo do pâncreas", pagina:43 },
-  { id:"dig-65", sistema:"digestorio", nome:"Cauda do pâncreas", pagina:43 },
-  { id:"dig-66", sistema:"digestorio", nome:"Ducto pancreático principal", pagina:43 },
-  { id:"dig-67", sistema:"digestorio", nome:"Ducto pancreático acessório", pagina:43 },
-  { id:"dig-68", sistema:"digestorio", nome:"Ducto pancreático", pagina:43 },
-
-  { id:"dig-69", sistema:"digestorio", nome:"Glândulas salivares", pagina:44 },
-  { id:"dig-70", sistema:"digestorio", nome:"Parótida", pagina:44 },
-  { id:"dig-71", sistema:"digestorio", nome:"Ducto da parótida", pagina:44 },
-
-  { id:"dig-72", sistema:"digestorio", nome:"Sublingual", pagina:45 },
-  { id:"dig-73", sistema:"digestorio", nome:"Submandibular", pagina:45 }
-];
-
 
 // ============================================================
-// ESTADO
+// VARIÁVEIS
 // ============================================================
 
 let sistemaAtual = null;
@@ -218,7 +26,6 @@ function embaralhar(lista) {
 
   for (let i = copia.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-
     [copia[i], copia[j]] = [copia[j], copia[i]];
   }
 
@@ -227,10 +34,234 @@ function embaralhar(lista) {
 
 
 // ============================================================
-// MOSTRAR TELA
+// SISTEMA RESPIRATÓRIO
+// CONTEÚDO DAS PÁGINAS 2 A 26
+// ============================================================
+
+const estruturasRespiratorio = [
+
+  { id: "resp-01", nome: "Raiz", sistema: "respiratorio", pagina: 2 },
+  { id: "resp-02", nome: "Dorso", sistema: "respiratorio", pagina: 2 },
+  { id: "resp-03", nome: "Ápice", sistema: "respiratorio", pagina: 2 },
+
+  { id: "resp-04", nome: "Asas", sistema: "respiratorio", pagina: 3 },
+  { id: "resp-05", nome: "Base", sistema: "respiratorio", pagina: 3 },
+  { id: "resp-06", nome: "Narina", sistema: "respiratorio", pagina: 3 },
+
+  { id: "resp-07", nome: "Cavidade nasal", sistema: "respiratorio", pagina: 4 },
+  { id: "resp-08", nome: "Abertura piriforme", sistema: "respiratorio", pagina: 4 },
+  { id: "resp-09", nome: "Coanas", sistema: "respiratorio", pagina: 4 },
+
+  { id: "resp-10", nome: "Concha nasal superior", sistema: "respiratorio", pagina: 5 },
+  { id: "resp-11", nome: "Concha nasal média", sistema: "respiratorio", pagina: 5 },
+  { id: "resp-12", nome: "Concha nasal inferior", sistema: "respiratorio", pagina: 5 },
+
+  { id: "resp-13", nome: "Meato nasal superior", sistema: "respiratorio", pagina: 6 },
+  { id: "resp-14", nome: "Meato nasal médio", sistema: "respiratorio", pagina: 6 },
+  { id: "resp-15", nome: "Meato nasal inferior", sistema: "respiratorio", pagina: 6 },
+
+  { id: "resp-16", nome: "Cavidade nasal", sistema: "respiratorio", pagina: 7 },
+  { id: "resp-17", nome: "Epitélio olfatório", sistema: "respiratorio", pagina: 7 },
+  { id: "resp-18", nome: "Nervo olfatório", sistema: "respiratorio", pagina: 7 },
+  { id: "resp-19", nome: "Ducto nasolacrimal", sistema: "respiratorio", pagina: 7 },
+
+  { id: "resp-20", nome: "Ducto nasolacrimal", sistema: "respiratorio", pagina: 8 },
+  { id: "resp-21", nome: "Cavidade nasal", sistema: "respiratorio", pagina: 8 },
+
+  { id: "resp-22", nome: "Seio frontal", sistema: "respiratorio", pagina: 9 },
+  { id: "resp-23", nome: "Seio esfenoidal", sistema: "respiratorio", pagina: 9 },
+  { id: "resp-24", nome: "Seios etmoidais", sistema: "respiratorio", pagina: 9 },
+  { id: "resp-25", nome: "Seios maxilares", sistema: "respiratorio", pagina: 9 },
+
+  { id: "resp-26", nome: "Tórus tubal", sistema: "respiratorio", pagina: 10 },
+  { id: "resp-27", nome: "Óstio faríngeo da tuba auditiva", sistema: "respiratorio", pagina: 10 },
+  { id: "resp-28", nome: "Faringe", sistema: "respiratorio", pagina: 10 },
+
+  { id: "resp-29", nome: "Faringe", sistema: "respiratorio", pagina: 11 },
+  { id: "resp-30", nome: "Nasofaringe", sistema: "respiratorio", pagina: 11 },
+  { id: "resp-31", nome: "Orofaringe", sistema: "respiratorio", pagina: 11 },
+  { id: "resp-32", nome: "Laringofaringe", sistema: "respiratorio", pagina: 11 },
+
+  { id: "resp-33", nome: "Faringe", sistema: "respiratorio", pagina: 12 },
+  { id: "resp-34", nome: "Tórus tubal", sistema: "respiratorio", pagina: 12 },
+  { id: "resp-35", nome: "Óstio faríngeo da tuba auditiva", sistema: "respiratorio", pagina: 12 },
+  { id: "resp-36", nome: "Tonsilas faríngeas", sistema: "respiratorio", pagina: 12 },
+
+  { id: "resp-37", nome: "Epiglote", sistema: "respiratorio", pagina: 13 },
+  { id: "resp-38", nome: "Prega vestibular", sistema: "respiratorio", pagina: 13 },
+  { id: "resp-39", nome: "Prega vocal", sistema: "respiratorio", pagina: 13 },
+  { id: "resp-40", nome: "Laringe", sistema: "respiratorio", pagina: 13 },
+
+  { id: "resp-41", nome: "Epiglote", sistema: "respiratorio", pagina: 14 },
+  { id: "resp-42", nome: "Prega vestibular", sistema: "respiratorio", pagina: 14 },
+  { id: "resp-43", nome: "Prega vocal", sistema: "respiratorio", pagina: 14 },
+  { id: "resp-44", nome: "Laringe", sistema: "respiratorio", pagina: 14 },
+
+  { id: "resp-45", nome: "Cartilagem epiglótica", sistema: "respiratorio", pagina: 15 },
+  { id: "resp-46", nome: "Cartilagem da tireóide", sistema: "respiratorio", pagina: 15 },
+  { id: "resp-47", nome: "Cartilagem cricóide", sistema: "respiratorio", pagina: 15 },
+
+  { id: "resp-48", nome: "Cartilagem corniculada", sistema: "respiratorio", pagina: 16 },
+  { id: "resp-49", nome: "Cartilagem aritenóide", sistema: "respiratorio", pagina: 16 },
+  { id: "resp-50", nome: "Cartilagem cricóide", sistema: "respiratorio", pagina: 16 },
+
+  { id: "resp-51", nome: "Anéis cartilaginosos", sistema: "respiratorio", pagina: 17 },
+  { id: "resp-52", nome: "Ligamentos anulares", sistema: "respiratorio", pagina: 17 },
+  { id: "resp-53", nome: "Parede posterior da traquéia", sistema: "respiratorio", pagina: 17 },
+  { id: "resp-54", nome: "Carina", sistema: "respiratorio", pagina: 17 },
+  { id: "resp-55", nome: "Traquéia", sistema: "respiratorio", pagina: 17 },
+
+  { id: "resp-56", nome: "Principal esquerdo", sistema: "respiratorio", pagina: 18 },
+  { id: "resp-57", nome: "Principal direito", sistema: "respiratorio", pagina: 18 },
+  { id: "resp-58", nome: "Bronquio lobar superior direito", sistema: "respiratorio", pagina: 18 },
+  { id: "resp-59", nome: "Bronquio lobar médio direito", sistema: "respiratorio", pagina: 18 },
+  { id: "resp-60", nome: "Bronquio lobar inferior direito", sistema: "respiratorio", pagina: 18 },
+
+  { id: "resp-61", nome: "Principal direito", sistema: "respiratorio", pagina: 19 },
+  { id: "resp-62", nome: "Bronquio lobar superior direito", sistema: "respiratorio", pagina: 19 },
+  { id: "resp-63", nome: "Bronquio lobar médio direito", sistema: "respiratorio", pagina: 19 },
+  { id: "resp-64", nome: "Bronquio lobar inferior direito", sistema: "respiratorio", pagina: 19 },
+
+  { id: "resp-65", nome: "Bronquio lobar superior esquerdo", sistema: "respiratorio", pagina: 20 },
+  { id: "resp-66", nome: "Bronquio lobar inferior esquerdo", sistema: "respiratorio", pagina: 20 },
+  { id: "resp-67", nome: "Bronquio principal esquerdo", sistema: "respiratorio", pagina: 20 },
+
+  { id: "resp-68", nome: "Bronquios segmentares", sistema: "respiratorio", pagina: 21 },
+  { id: "resp-69", nome: "Bronquíolos", sistema: "respiratorio", pagina: 21 },
+
+  { id: "resp-70", nome: "Lobo superior esq.", sistema: "respiratorio", pagina: 22 },
+  { id: "resp-71", nome: "Lobo inferior esq.", sistema: "respiratorio", pagina: 22 },
+  { id: "resp-72", nome: "Fissura oblíqua", sistema: "respiratorio", pagina: 22 },
+
+  { id: "resp-73", nome: "Lobo superior dir.", sistema: "respiratorio", pagina: 23 },
+  { id: "resp-74", nome: "Fissura horizontal", sistema: "respiratorio", pagina: 23 },
+  { id: "resp-75", nome: "Lobo médio", sistema: "respiratorio", pagina: 23 },
+  { id: "resp-76", nome: "Fissura oblíqua", sistema: "respiratorio", pagina: 23 },
+  { id: "resp-77", nome: "Lobo inferior dir.", sistema: "respiratorio", pagina: 23 },
+
+  { id: "resp-78", nome: "Base", sistema: "respiratorio", pagina: 24 },
+  { id: "resp-79", nome: "Ápice", sistema: "respiratorio", pagina: 24 },
+
+  { id: "resp-80", nome: "Faces costal", sistema: "respiratorio", pagina: 25 },
+  { id: "resp-81", nome: "Face diafragmática", sistema: "respiratorio", pagina: 25 },
+  { id: "resp-82", nome: "Face medial", sistema: "respiratorio", pagina: 25 },
+
+  { id: "resp-83", nome: "Hilo pulmonar", sistema: "respiratorio", pagina: 26 }
+
+];
+
+
+// ============================================================
+// SISTEMA DIGESTÓRIO
+// CONTEÚDO DAS PÁGINAS 28 A 45
+// ============================================================
+
+const estruturasDigestorio = [
+
+  { id: "dig-01", nome: "Lábio superior", sistema: "digestorio", pagina: 28 },
+  { id: "dig-02", nome: "Lábio inferior", sistema: "digestorio", pagina: 28 },
+  { id: "dig-03", nome: "Vestíbulo bucal", sistema: "digestorio", pagina: 28 },
+  { id: "dig-04", nome: "Arcáda dentária", sistema: "digestorio", pagina: 28 },
+
+  { id: "dig-05", nome: "Língua (musculatura intrínseca)", sistema: "digestorio", pagina: 29 },
+  { id: "dig-06", nome: "Língua (musculatura extrínseca)", sistema: "digestorio", pagina: 29 },
+  { id: "dig-07", nome: "Palato duro", sistema: "digestorio", pagina: 29 },
+  { id: "dig-08", nome: "Palato mole", sistema: "digestorio", pagina: 29 },
+  { id: "dig-09", nome: "Úvula palatina", sistema: "digestorio", pagina: 29 },
+  { id: "dig-10", nome: "Rima labial", sistema: "digestorio", pagina: 29 },
+
+  { id: "dig-11", nome: "Faringe", sistema: "digestorio", pagina: 30 },
+  { id: "dig-12", nome: "Nasofaringe", sistema: "digestorio", pagina: 30 },
+  { id: "dig-13", nome: "Orofaringe", sistema: "digestorio", pagina: 30 },
+  { id: "dig-14", nome: "Laringofaringe", sistema: "digestorio", pagina: 30 },
+
+  { id: "dig-15", nome: "Esôfago", sistema: "digestorio", pagina: 31 },
+
+  { id: "dig-16", nome: "Pregas gástricas", sistema: "digestorio", pagina: 32 },
+  { id: "dig-17", nome: "Óstio cárdico", sistema: "digestorio", pagina: 32 },
+  { id: "dig-18", nome: "Óstio pilórico", sistema: "digestorio", pagina: 32 },
+
+  { id: "dig-19", nome: "Região cardia", sistema: "digestorio", pagina: 33 },
+  { id: "dig-20", nome: "Região pilórica", sistema: "digestorio", pagina: 33 },
+
+  { id: "dig-21", nome: "Fundo do estômago", sistema: "digestorio", pagina: 34 },
+  { id: "dig-22", nome: "Corpo do estômago", sistema: "digestorio", pagina: 34 },
+  { id: "dig-23", nome: "Curvatura menor do estômago", sistema: "digestorio", pagina: 34 },
+  { id: "dig-24", nome: "Curvatura maior do estômago", sistema: "digestorio", pagina: 34 },
+
+  { id: "dig-25", nome: "Duodeno", sistema: "digestorio", pagina: 35 },
+  { id: "dig-26", nome: "Ampola duodenal", sistema: "digestorio", pagina: 35 },
+  { id: "dig-27", nome: "Pregas circulares do duodeno", sistema: "digestorio", pagina: 35 },
+  { id: "dig-28", nome: "Flexura duodeno jejunal", sistema: "digestorio", pagina: 35 },
+
+  { id: "dig-29", nome: "Jejuno", sistema: "digestorio", pagina: 36 },
+  { id: "dig-30", nome: "Íleo", sistema: "digestorio", pagina: 36 },
+
+  { id: "dig-31", nome: "Cecum", sistema: "digestorio", pagina: 37 },
+  { id: "dig-32", nome: "Junção ileo-cecum-cólica", sistema: "digestorio", pagina: 37 },
+
+  { id: "dig-33", nome: "Colo sigmóide", sistema: "digestorio", pagina: 38 },
+  { id: "dig-34", nome: "Intestino grosso", sistema: "digestorio", pagina: 38 },
+  { id: "dig-35", nome: "Colo ascendente", sistema: "digestorio", pagina: 38 },
+  { id: "dig-36", nome: "Colo transverso", sistema: "digestorio", pagina: 38 },
+  { id: "dig-37", nome: "Colo descendente", sistema: "digestorio", pagina: 38 },
+
+  { id: "dig-38", nome: "Haustros", sistema: "digestorio", pagina: 39 },
+  { id: "dig-39", nome: "Intestino grosso", sistema: "digestorio", pagina: 39 },
+  { id: "dig-40", nome: "Apêndice vermiforme", sistema: "digestorio", pagina: 39 },
+  { id: "dig-41", nome: "Canal retal", sistema: "digestorio", pagina: 39 },
+  { id: "dig-42", nome: "Ânus", sistema: "digestorio", pagina: 39 },
+  { id: "dig-43", nome: "Tênia", sistema: "digestorio", pagina: 39 },
+
+  { id: "dig-44", nome: "Lobo direito", sistema: "digestorio", pagina: 40 },
+  { id: "dig-45", nome: "Lobo esquerdo", sistema: "digestorio", pagina: 40 },
+  { id: "dig-46", nome: "Lobo caudado", sistema: "digestorio", pagina: 40 },
+  { id: "dig-47", nome: "Lobo quadrado", sistema: "digestorio", pagina: 40 },
+
+  { id: "dig-48", nome: "Veia porta hepática", sistema: "digestorio", pagina: 41 },
+  { id: "dig-49", nome: "Ligamento falciforme", sistema: "digestorio", pagina: 41 },
+  { id: "dig-50", nome: "Artéria hepática própria", sistema: "digestorio", pagina: 41 },
+  { id: "dig-51", nome: "Vesícula biliar", sistema: "digestorio", pagina: 41 },
+
+  { id: "dig-52", nome: "Ducto cístico", sistema: "digestorio", pagina: 42 },
+  { id: "dig-53", nome: "Ducto hepático direito", sistema: "digestorio", pagina: 42 },
+  { id: "dig-54", nome: "Ducto hepático esquerdo", sistema: "digestorio", pagina: 42 },
+  { id: "dig-55", nome: "Ducto hepático comum", sistema: "digestorio", pagina: 42 },
+  { id: "dig-56", nome: "Ducto colédoco", sistema: "digestorio", pagina: 42 },
+  { id: "dig-57", nome: "Ducto hepato pancreático", sistema: "digestorio", pagina: 42 },
+
+  { id: "dig-58", nome: "Cabeça", sistema: "digestorio", pagina: 43 },
+  { id: "dig-59", nome: "Corpo", sistema: "digestorio", pagina: 43 },
+  { id: "dig-60", nome: "Cauda", sistema: "digestorio", pagina: 43 },
+  { id: "dig-61", nome: "Ducto pancreático principal", sistema: "digestorio", pagina: 43 },
+  { id: "dig-62", nome: "Ducto pancreático acessório", sistema: "digestorio", pagina: 43 },
+  { id: "dig-63", nome: "Ducto pancreático", sistema: "digestorio", pagina: 43 },
+
+  { id: "dig-64", nome: "Parótida", sistema: "digestorio", pagina: 44 },
+  { id: "dig-65", nome: "Ducto da parótida", sistema: "digestorio", pagina: 44 },
+
+  { id: "dig-66", nome: "Sublingual", sistema: "digestorio", pagina: 45 },
+  { id: "dig-67", nome: "Submandibular", sistema: "digestorio", pagina: 45 }
+
+];
+
+
+// ============================================================
+// TODAS AS ESTRUTURAS
+// ============================================================
+
+const estruturas = [
+  ...estruturasRespiratorio,
+  ...estruturasDigestorio
+];
+
+
+// ============================================================
+// TROCAR DE TELA
 // ============================================================
 
 function mostrarTela(id) {
+
   document.querySelectorAll(".tela").forEach(tela => {
     tela.classList.remove("ativa");
   });
@@ -253,15 +284,33 @@ function mostrarTela(id) {
 // ============================================================
 
 function selecionarSistema(sistema) {
+
+  if (
+    sistema !== "respiratorio" &&
+    sistema !== "digestorio" &&
+    sistema !== "ambos"
+  ) {
+    console.error("Sistema inválido:", sistema);
+    return;
+  }
+
   sistemaAtual = sistema;
 
   const titulo = document.getElementById("tituloSistema");
 
   if (titulo) {
-    titulo.textContent =
-      sistema === "respiratorio"
-        ? "Sistema Respiratório"
-        : "Sistema Digestório";
+
+    if (sistema === "respiratorio") {
+      titulo.textContent = "Sistema Respiratório";
+    }
+
+    else if (sistema === "digestorio") {
+      titulo.textContent = "Sistema Digestório";
+    }
+
+    else {
+      titulo.textContent = "Sistema Respiratório e Digestório";
+    }
   }
 
   mostrarTela("configuracao");
@@ -273,8 +322,13 @@ function selecionarSistema(sistema) {
 // ============================================================
 
 function voltarMenu() {
+
   sistemaAtual = null;
   modoAtual = null;
+  perguntas = [];
+  indiceAtual = 0;
+  pontuacao = 0;
+  respondeu = false;
 
   mostrarTela("menu");
 }
@@ -288,35 +342,36 @@ function iniciarJogo(modo) {
 
   modoAtual = modo;
 
-  // Se nenhum sistema foi selecionado,
-  // usa os dois sistemas do material.
   if (!sistemaAtual) {
     sistemaAtual = "ambos";
   }
 
-  let pool;
+  let pool = [];
 
   if (sistemaAtual === "ambos") {
 
-    pool = estruturas.filter(
-      item =>
-        item.sistema === "respiratório" ||
-        item.sistema === "digestório"
-    );
+    pool = [...estruturas];
 
-  } else {
+  }
+
+  else {
 
     pool = estruturas.filter(
       item => item.sistema === sistemaAtual
     );
-
   }
 
-  // Segurança: não inicia se não houver estruturas.
+
   if (pool.length === 0) {
-    console.error("Nenhuma estrutura encontrada para o sistema:", sistemaAtual);
+
+    console.error(
+      "Nenhuma estrutura encontrada para:",
+      sistemaAtual
+    );
+
     return;
   }
+
 
   perguntas = embaralhar(pool);
 
@@ -341,9 +396,11 @@ function carregarQuestao() {
     return;
   }
 
+
   respondeu = false;
 
   const estrutura = perguntas[indiceAtual];
+
 
   const pergunta =
     document.getElementById("pergunta");
@@ -373,23 +430,25 @@ function carregarQuestao() {
     document.getElementById("progresso");
 
 
-  // Contador
+  // CONTADOR
 
   if (contador) {
+
     contador.textContent =
       `Questão ${indiceAtual + 1} de ${perguntas.length}`;
   }
 
 
-  // Pontuação
+  // PONTUAÇÃO
 
   if (pontos) {
+
     pontos.textContent =
       `Pontos: ${pontuacao}`;
   }
 
 
-  // Progresso
+  // PROGRESSO
 
   if (progresso) {
 
@@ -401,65 +460,86 @@ function carregarQuestao() {
   }
 
 
-  // Pergunta
+  // PERGUNTA
 
   if (pergunta) {
 
-  const perguntasVariadas = [
-    "Qual é a estrutura anatômica apresentada?",
-    "Qual alternativa identifica corretamente a estrutura estudada?",
-    "Identifique a estrutura anatômica correspondente à imagem.",
-    "Qual é o nome da estrutura apresentada no material?",
-    "Que estrutura anatômica está sendo estudada nesta questão?"
-  ];
+    const perguntasVariadas = [
 
-  const perguntaEscolhida =
-    perguntasVariadas[
-      Math.floor(Math.random() * perguntasVariadas.length)
+      "Qual é a estrutura anatômica apresentada?",
+
+      "Qual alternativa identifica corretamente a estrutura apresentada?",
+
+      "Identifique a estrutura anatômica correspondente à imagem.",
+
+      "Qual é o nome da estrutura apresentada no material?",
+
+      "Que estrutura anatômica está sendo estudada nesta questão?"
+
     ];
 
-  pergunta.textContent = perguntaEscolhida;
+
+    const perguntaEscolhida =
+      perguntasVariadas[
+        Math.floor(
+          Math.random() *
+          perguntasVariadas.length
+        )
+      ];
+
+
+    pergunta.textContent =
+      perguntaEscolhida;
   }
 
 
-// ============================================================
-// IMAGEM DO PDF
-// ============================================================
+  // IMAGEM DO PDF
 
-if (imagem) {
+  if (imagem) {
 
-  const numeroPagina = String(estrutura.pagina).padStart(2, "0");
+    const numeroPagina =
+      String(estrutura.pagina).padStart(2, "0");
 
-  imagem.src = `pagina-${numeroPagina}.jpg`;
-  imagem.alt = `Imagem anatômica - página ${estrutura.pagina} do PDF`;
-  imagem.style.display = "block";
 
-}
+    imagem.src =
+      `pagina-${numeroPagina}.jpg`;
 
-if (semImagem) {
 
-  semImagem.style.display = "none";
+    imagem.alt =
+      `Imagem anatômica da página ${estrutura.pagina} do PDF`;
 
-}
 
-  // Marcador
+    imagem.style.display =
+      "block";
+  }
+
+
+  // SEM IMAGEM
+
+  if (semImagem) {
+    semImagem.style.display = "none";
+  }
+
+
+  // SEM SETA/MARCADOR ARTIFICIAL
 
   if (marcador) {
     marcador.style.display = "none";
   }
 
 
-  // Feedback
+  // LIMPAR FEEDBACK
 
   if (feedback) {
 
     feedback.textContent = "";
 
-    feedback.className = "feedback";
+    feedback.className =
+      "feedback";
   }
 
 
-  // Próxima
+  // ESCONDER PRÓXIMA
 
   if (proxima) {
     proxima.style.display = "none";
@@ -479,83 +559,18 @@ function criarAlternativas(correta) {
   const container =
     document.getElementById("alternativas");
 
+
   if (!container) {
     return;
   }
 
+
   container.innerHTML = "";
 
-  // Escolhe estruturas erradas do mesmo sistema,
-  // mas de páginas diferentes da estrutura correta.
-  const outrasEstruturas =
-    estruturas.filter(
-      item =>
-        item.sistema === correta.sistema &&
-        item.id !== correta.id &&
-        item.pagina !== correta.pagina
-    );
 
-  const erradas =
-    embaralhar(outrasEstruturas).slice(0, 3);
+  // OUTRAS ESTRUTURAS DO MESMO SISTEMA
 
-  // Junta a correta com 3 alternativas erradas
-  // e embaralha a posição delas.
-  const opcoes =
-    embaralhar([
-      correta,
-      ...erradas
-    ]);
-
-  opcoes.forEach(opcao => {
-
-    const botao =
-      document.createElement("button");
-
-    botao.textContent =
-      opcao.nome;
-
-    botao.dataset.id =
-      opcao.id;
-
-    botao.addEventListener(
-      "click",
-      () =>
-        responder(
-          opcao.id,
-          correta.id,
-          botao
-        )
-    );
-
-    container.appendChild(botao);
-
-  });
-}
-
-  // MODO ESTUDAR
-
-  if (modoAtual === "estudar") {
-
-    const botao =
-      document.createElement("button");
-
-    botao.textContent =
-      correta.nome;
-
-    botao.addEventListener(
-      "click",
-      () => mostrarRespostaEstudo(correta)
-    );
-
-    container.appendChild(botao);
-
-    return;
-  }
-
-
-  // Alternativas do mesmo sistema
-
-  const outras =
+  let outrasEstruturas =
     estruturas.filter(
       item =>
         item.sistema === correta.sistema &&
@@ -563,8 +578,23 @@ function criarAlternativas(correta) {
     );
 
 
+  // PRIORIZA ESTRUTURAS DE OUTRAS PÁGINAS
+
+  const outrasPaginas =
+    outrasEstruturas.filter(
+      item =>
+        item.pagina !== correta.pagina
+    );
+
+
+  if (outrasPaginas.length >= 3) {
+    outrasEstruturas = outrasPaginas;
+  }
+
+
   const erradas =
-    embaralhar(outras).slice(0, 3);
+    embaralhar(outrasEstruturas)
+      .slice(0, 3);
 
 
   const opcoes =
@@ -579,23 +609,37 @@ function criarAlternativas(correta) {
     const botao =
       document.createElement("button");
 
+
+    botao.type =
+      "button";
+
+
     botao.textContent =
       opcao.nome;
+
 
     botao.dataset.id =
       opcao.id;
 
+
     botao.addEventListener(
       "click",
-      () =>
+      function () {
+
         responder(
           opcao.id,
           correta.id,
           botao
-        )
+        );
+
+      }
     );
 
-    container.appendChild(botao);
+
+    container.appendChild(
+      botao
+    );
+
   });
 }
 
@@ -607,12 +651,13 @@ function criarAlternativas(correta) {
 function responder(
   idEscolhido,
   idCorreto,
-  botaoEscolhido
+  botao
 ) {
 
   if (respondeu) {
     return;
   }
+
 
   respondeu = true;
 
@@ -620,94 +665,8 @@ function responder(
   const feedback =
     document.getElementById("feedback");
 
-
-  const botoes =
-    document.querySelectorAll(
-      "#alternativas button"
-    );
-
-
-  botoes.forEach(botao => {
-
-    botao.disabled = true;
-
-    if (botao.dataset.id === idCorreto) {
-      botao.classList.add("correta");
-    }
-  });
-
-
-  if (idEscolhido === idCorreto) {
-
-    pontuacao++;
-
-    botaoEscolhido.classList.add(
-      "correta"
-    );
-
-    if (feedback) {
-
-      feedback.textContent =
-        "✅ Resposta correta!";
-
-      feedback.className =
-        "feedback correto";
-    }
-
-  } else {
-
-    botaoEscolhido.classList.add(
-      "errada"
-    );
-
-    const estrutura =
-      estruturas.find(
-        item => item.id === idCorreto
-      );
-
-    if (feedback) {
-
-      feedback.textContent =
-        `❌ Resposta incorreta. A resposta correta é: ${estrutura.nome}.`;
-
-      feedback.className =
-        "feedback errado";
-    }
-  }
-
-
-  atualizarPontuacao();
-
-
   const proxima =
     document.getElementById("proxima");
-
-  if (proxima) {
-    proxima.style.display =
-      "inline-block";
-  }
-}
-
-
-// ============================================================
-// MODO ESTUDAR
-// ============================================================
-
-function mostrarRespostaEstudo(
-  estrutura
-) {
-
-  const feedback =
-    document.getElementById("feedback");
-
-  if (feedback) {
-
-    feedback.textContent =
-      `📚 Estrutura: ${estrutura.nome} | Página do material: ${estrutura.pagina}`;
-
-    feedback.className =
-      "feedback correto";
-  }
 
 
   const botoes =
@@ -717,19 +676,132 @@ function mostrarRespostaEstudo(
 
 
   botoes.forEach(
-    botao => botao.disabled = true
+    botaoAtual => {
+      botaoAtual.disabled = true;
+    }
   );
+
+
+  const correta =
+    estruturas.find(
+      item =>
+        item.id === idCorreto
+    );
+
+
+  // ACERTOU
+
+  if (idEscolhido === idCorreto) {
+
+    pontuacao++;
+
+
+    if (feedback) {
+
+      feedback.textContent =
+        "✅ Resposta correta!";
+
+      feedback.className =
+        "feedback correta";
+    }
+
+
+    if (botao) {
+
+      botao.classList.add(
+        "correta"
+      );
+    }
+
+  }
+
+
+  // ERROU
+
+  else {
+
+    if (feedback) {
+
+      feedback.textContent =
+        `❌ Resposta incorreta. A resposta correta é: ${correta.nome}`;
+
+      feedback.className =
+        "feedback incorreta";
+    }
+
+
+    if (botao) {
+
+      botao.classList.add(
+        "incorreta"
+      );
+    }
+
+
+    botoes.forEach(
+      botaoAtual => {
+
+        if (
+          botaoAtual.dataset.id ===
+          idCorreto
+        ) {
+
+          botaoAtual.classList.add(
+            "correta"
+          );
+        }
+
+      }
+    );
+  }
+
+
+  atualizarPontuacao();
+
+
+  if (proxima) {
+
+    proxima.style.display =
+      "block";
+  }
+}
+
+
+// ============================================================
+// MOSTRAR RESPOSTA NO MODO ESTUDO
+// ============================================================
+
+function mostrarRespostaEstudo(correta) {
+
+  if (respondeu) {
+    return;
+  }
 
 
   respondeu = true;
 
 
+  const feedback =
+    document.getElementById("feedback");
+
   const proxima =
     document.getElementById("proxima");
 
+
+  if (feedback) {
+
+    feedback.textContent =
+      `Resposta: ${correta.nome}`;
+
+    feedback.className =
+      "feedback correta";
+  }
+
+
   if (proxima) {
+
     proxima.style.display =
-      "inline-block";
+      "block";
   }
 }
 
@@ -741,6 +813,8 @@ function mostrarRespostaEstudo(
 function proximaQuestao() {
 
   indiceAtual++;
+
+  respondeu = false;
 
   carregarQuestao();
 }
@@ -754,6 +828,7 @@ function atualizarPontuacao() {
 
   const pontos =
     document.getElementById("pontuacao");
+
 
   if (pontos) {
 
@@ -772,59 +847,23 @@ function mostrarResultado() {
   mostrarTela("resultado");
 
 
-  const porcentagem =
-    perguntas.length > 0
-      ? Math.round(
-          (pontuacao / perguntas.length) * 100
-        )
-      : 0;
+  const resultado =
+    document.getElementById("resultadoPontuacao");
 
 
-  const campo =
-    document.getElementById("porcentagem");
+  if (resultado) {
 
-
-  const mensagem =
-    document.getElementById(
-      "mensagemResultado"
-    );
-
-
-  if (campo) {
-    campo.textContent =
-      `${porcentagem}%`;
-  }
-
-
-  if (mensagem) {
-
-    if (porcentagem >= 90) {
-
-      mensagem.textContent =
-        "Excelente! Você está dominando o conteúdo.";
-
-    } else if (porcentagem >= 70) {
-
-      mensagem.textContent =
-        "Muito bom! Continue estudando.";
-
-    } else if (porcentagem >= 50) {
-
-      mensagem.textContent =
-        "Bom trabalho! Revise algumas estruturas.";
-
-    } else {
-
-      mensagem.textContent =
-        "É importante revisar o conteúdo e tentar novamente.";
-    }
+    resultado.textContent =
+      `Você acertou ${pontuacao} de ${perguntas.length} questões.`;
   }
 
 
   const progresso =
     document.getElementById("progresso");
 
+
   if (progresso) {
+
     progresso.style.width =
       "100%";
   }
@@ -832,18 +871,19 @@ function mostrarResultado() {
 
 
 // ============================================================
-// SAIR
+// SAIR DO JOGO
 // ============================================================
 
 function sairJogo() {
 
+  sistemaAtual = null;
   modoAtual = null;
   perguntas = [];
   indiceAtual = 0;
   pontuacao = 0;
   respondeu = false;
 
-  mostrarTela("configuracao");
+  mostrarTela("menu");
 }
 
 
@@ -853,24 +893,25 @@ function sairJogo() {
 
 function jogarNovamente() {
 
-  if (!sistemaAtual || !modoAtual) {
+  indiceAtual = 0;
+  pontuacao = 0;
+  respondeu = false;
 
-    voltarMenu();
-
-    return;
+  if (!sistemaAtual) {
+    sistemaAtual = "ambos";
   }
 
-  iniciarJogo(modoAtual);
+  mostrarTela("configuracao");
 }
 
 
 // ============================================================
-// INICIALIZAÇÃO
+// INICIAR NO MENU
 // ============================================================
 
 document.addEventListener(
   "DOMContentLoaded",
-  () => {
+  function () {
 
     mostrarTela("menu");
 
