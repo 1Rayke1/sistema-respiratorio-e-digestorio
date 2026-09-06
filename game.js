@@ -383,16 +383,20 @@ function carregarQuestao() {
 
   if (pergunta) {
 
-    if (modoAtual === "estudar") {
+  const perguntasVariadas = [
+    "Qual é a estrutura anatômica apresentada?",
+    "Qual alternativa identifica corretamente a estrutura estudada?",
+    "Identifique a estrutura anatômica correspondente à imagem.",
+    "Qual é o nome da estrutura apresentada no material?",
+    "Que estrutura anatômica está sendo estudada nesta questão?"
+  ];
 
-      pergunta.textContent =
-        "Estude a estrutura apresentada no material.";
+  const perguntaEscolhida =
+    perguntasVariadas[
+      Math.floor(Math.random() * perguntasVariadas.length)
+    ];
 
-    } else {
-
-      pergunta.textContent =
-        "Qual é a estrutura anatômica indicada?";
-    }
+  pergunta.textContent = perguntaEscolhida;
   }
 
 
@@ -459,6 +463,52 @@ function criarAlternativas(correta) {
 
   container.innerHTML = "";
 
+  // Escolhe estruturas erradas do mesmo sistema,
+  // mas de páginas diferentes da estrutura correta.
+  const outrasEstruturas =
+    estruturas.filter(
+      item =>
+        item.sistema === correta.sistema &&
+        item.id !== correta.id &&
+        item.pagina !== correta.pagina
+    );
+
+  const erradas =
+    embaralhar(outrasEstruturas).slice(0, 3);
+
+  // Junta a correta com 3 alternativas erradas
+  // e embaralha a posição delas.
+  const opcoes =
+    embaralhar([
+      correta,
+      ...erradas
+    ]);
+
+  opcoes.forEach(opcao => {
+
+    const botao =
+      document.createElement("button");
+
+    botao.textContent =
+      opcao.nome;
+
+    botao.dataset.id =
+      opcao.id;
+
+    botao.addEventListener(
+      "click",
+      () =>
+        responder(
+          opcao.id,
+          correta.id,
+          botao
+        )
+    );
+
+    container.appendChild(botao);
+
+  });
+}
 
   // MODO ESTUDAR
 
