@@ -286,15 +286,37 @@ function voltarMenu() {
 
 function iniciarJogo(modo) {
 
-  if (!sistemaAtual) {
-    return;
-  }
-
   modoAtual = modo;
 
-  const pool = estruturas.filter(
-    item => item.sistema === sistemaAtual
-  );
+  // Se nenhum sistema foi selecionado,
+  // usa os dois sistemas do material.
+  if (!sistemaAtual) {
+    sistemaAtual = "ambos";
+  }
+
+  let pool;
+
+  if (sistemaAtual === "ambos") {
+
+    pool = estruturas.filter(
+      item =>
+        item.sistema === "respiratório" ||
+        item.sistema === "digestório"
+    );
+
+  } else {
+
+    pool = estruturas.filter(
+      item => item.sistema === sistemaAtual
+    );
+
+  }
+
+  // Segurança: não inicia se não houver estruturas.
+  if (pool.length === 0) {
+    console.error("Nenhuma estrutura encontrada para o sistema:", sistemaAtual);
+    return;
+  }
 
   perguntas = embaralhar(pool);
 
