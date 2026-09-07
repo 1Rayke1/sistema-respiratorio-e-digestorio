@@ -1,381 +1,184 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Anatomia em Jogo</title>
-
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- MENU PRINCIPAL -->
-    <main id="menu" class="tela ativa">
-
+    <!-- TELA INICIAL -->
+    <section id="inicio" class="tela ativa">
         <div class="container">
-
             <header class="cabecalho">
-                <h1>🫁 Anatomia em Jogo</h1>
-
-                <p>
-                    Estude e teste seus conhecimentos
-                    de Anatomia Humana
-                </p>
+                <h1>🧠 Anatomia em Jogo</h1>
+                <p>Estude os sistemas Respiratório e Digestório</p>
             </header>
 
-
-            <section class="selecao-sistemas">
-
+            <div class="selecao-sistemas">
                 <h2>Escolha o sistema</h2>
 
                 <div class="sistemas">
-
-                    <button
-                        type="button"
-                        class="card-sistema"
-                        onclick="selecionarSistema('respiratorio')">
-
+                    <button class="card-sistema"
+                            onclick="selecionarSistema('respiratorio')">
                         <span class="icone">🫁</span>
-
-                        <strong>
-                            Sistema Respiratório
-                        </strong>
-
-                        <small>
-                            Nariz, faringe, laringe,
-                            traqueia, brônquios e pulmões
-                        </small>
-
+                        <strong>Sistema Respiratório</strong>
+                        <small>Estruturas e anatomia do sistema respiratório</small>
                     </button>
 
-
-                    <button
-                        type="button"
-                        class="card-sistema"
-                        onclick="selecionarSistema('digestorio')">
-
+                    <button class="card-sistema"
+                            onclick="selecionarSistema('digestorio')">
                         <span class="icone">🫃</span>
-
-                        <strong>
-                            Sistema Digestório
-                        </strong>
-
-                        <small>
-                            Boca, faringe, esôfago,
-                            estômago, intestinos e
-                            órgãos acessórios
-                        </small>
-
+                        <strong>Sistema Digestório</strong>
+                        <small>Estruturas e anatomia do sistema digestório</small>
                     </button>
-
                 </div>
-
-            </section>
-
-        </div>
-
-    </main>
-
-
-
-    <!-- CONFIGURAÇÃO -->
-    <main id="configuracao" class="tela">
-
-        <div class="container configuracao">
-
-            <button
-                type="button"
-                class="botao-voltar"
-                onclick="voltarMenu()">
-
-                ← Voltar
-
-            </button>
-
-
-            <div class="config-box">
-
-                <h2 id="tituloSistema">
-                    Sistema Respiratório
-                </h2>
-
-                <p>
-                    Escolha como deseja estudar:
-                </p>
-
-
-                <div class="modos">
-
-                    <button
-                        type="button"
-                        class="botao-modo"
-                        onclick="iniciarJogo('estudar')">
-
-                        <span>📚</span>
-
-                        <strong>
-                            Estudar
-                        </strong>
-
-                        <small>
-                            Todas as estruturas do sistema
-                        </small>
-
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="botao-modo"
-                        onclick="iniciarJogo('treinar')">
-
-                        <span>🎯</span>
-
-                        <strong>
-                            Treinar
-                        </strong>
-
-                        <small>
-                            20 questões aleatórias
-                        </small>
-
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="botao-modo"
-                        onclick="iniciarJogo('simulado')">
-
-                        <span>🏆</span>
-
-                        <strong>
-                            Simulado
-                        </strong>
-
-                        <small>
-                            Teste seus conhecimentos
-                        </small>
-
-                    </button>
-
-                </div>
-
             </div>
 
-        </div>
-
-    </main>
-
-
-
-    <!-- JOGO -->
-    <main id="jogo" class="tela">
-
-        <div class="container jogo-container">
-
-
-            <div class="topo-jogo">
-
-                <button
-                    type="button"
-                    class="botao-sair"
-                    onclick="sairJogo()">
-
-                    ✕ Sair
-
+            <div id="configuracao" class="configuracao">
+                <button class="botao-voltar" onclick="voltarMenu()">
+                    ← Voltar
                 </button>
 
+                <div class="config-box">
+                    <h2 id="tituloSistema">Sistema</h2>
 
-                <div
-                    id="contador"
-                    class="contador">
+                    <p>Escolha o modo de estudo:</p>
 
-                    Questão 1
+                    <div class="modos">
+                        <button class="botao-modo"
+                                onclick="iniciarJogo('estudar')">
+                            📚
+                            <strong>Estudar</strong>
+                            <span>50 questões</span>
+                        </button>
 
+                        <button class="botao-modo"
+                                onclick="iniciarJogo('treinar')">
+                            🎯
+                            <strong>Treinar</strong>
+                            <span>70 questões</span>
+                        </button>
+
+                        <button class="botao-modo"
+                                onclick="iniciarJogo('simulado')">
+                            📝
+                            <strong>Simulado</strong>
+                            <span>100 questões</span>
+                        </button>
+                    </div>
                 </div>
-
-
-                <div
-                    id="pontuacao"
-                    class="pontuacao">
-
-                    Pontuação: 0
-
-                </div>
-
             </div>
 
+            <footer>
+                Desenvolvedor: Rayke Jovino de Souza
+            </footer>
+        </div>
+    </section>
 
 
-            <!-- BARRA DE PROGRESSO -->
+    <!-- TELA DO JOGO -->
+    <section id="jogo" class="tela">
+        <div class="jogo-container">
+
+            <div class="topo-jogo">
+                <button class="botao-sair" onclick="sairJogo()">
+                    ← Sair
+                </button>
+
+                <div class="contador" id="contador">
+                    1/50
+                </div>
+
+                <div class="pontuacao" id="pontuacao">
+                    Pontos: 0
+                </div>
+            </div>
+
             <div class="barra-progresso">
-
-                <div
-                    id="progresso"
-                    class="progresso">
-                </div>
-
+                <div id="progresso" class="progresso"></div>
             </div>
 
-
-
-            <!-- PERGUNTA -->
-            <section class="questao">
-
-                <div
-                    id="pergunta"
-                    class="pergunta">
-
+            <div class="questao">
+                <h2 id="pergunta" class="pergunta">
                     Carregando pergunta...
+                </h2>
 
+                <div class="imagem-area">
+                    <div class="imagem-container">
+                        <img id="imagemAnatomica"
+                             src=""
+                             alt="Imagem anatômica do material">
+
+                        <div id="semImagem" class="sem-imagem">
+                            Imagem não disponível.
+                        </div>
+                    </div>
                 </div>
 
-            </section>
+                <div id="alternativas" class="alternativas"></div>
+
+                <div id="feedback" class="feedback"></div>
+
+                <button id="proxima"
+                        class="botao-proxima"
+                        onclick="proximaQuestao()">
+                    Próxima questão →
+                </button>
+            </div>
+
+        </div>
+    </section>
 
 
+    <!-- TELA DE RESULTADO -->
+    <section id="resultado" class="tela">
+        <div class="container">
 
-            <!-- IMAGEM -->
-            <section class="imagem-area">
+            <div class="resultado-container">
+                <div class="resultado-box">
 
-                <div class="imagem-container">
+                    <div class="trofeu">🏆</div>
 
-                    <img
-                        id="imagemAnatomica"
-                        src=""
-                        alt="Imagem anatômica">
+                    <h1>Resultado</h1>
 
-                    <div
-                        id="semImagem"
-                        class="sem-imagem">
+                    <div id="porcentagem" class="porcentagem">
+                        0%
+                    </div>
 
-                        Imagem não disponível.
+                    <p id="mensagemResultado"
+                       class="mensagem-resultado">
+                        Muito bem!
+                    </p>
+
+                    <div class="botoes-resultado">
+
+                        <button class="botao-principal"
+                                onclick="jogarNovamente()">
+                            🔄 Jogar novamente
+                        </button>
+
+                        <button class="botao-secundario"
+                                onclick="voltarMenu()">
+                            🏠 Voltar ao menu
+                        </button>
 
                     </div>
 
                 </div>
-
-            </section>
-
-
-
-            <!-- ALTERNATIVAS -->
-            <section
-                id="alternativas"
-                class="alternativas">
-            </section>
-
-
-
-            <!-- FEEDBACK -->
-            <div
-                id="feedback"
-                class="feedback">
             </div>
 
-
-
-            <!-- PRÓXIMA QUESTÃO -->
-            <button
-                type="button"
-                id="proxima"
-                class="botao-proxima"
-                onclick="proximaQuestao()">
-
-                Próxima questão
-
-            </button>
+            <footer>
+                Desenvolvedor: Rayke Jovino de Souza
+            </footer>
 
         </div>
-
-    </main>
-
+    </section>
 
 
-    <!-- RESULTADO -->
-    <main id="resultado" class="tela">
-
-        <div class="container resultado-container">
-
-            <div class="resultado-box">
-
-
-                <div class="trofeu">
-                    🏆
-                </div>
-
-
-                <h2>
-                    Resultado
-                </h2>
-
-
-                <div
-                    id="porcentagem"
-                    class="porcentagem">
-
-                    0%
-
-                </div>
-
-
-                <p
-                    id="mensagemResultado"
-                    class="mensagem-resultado">
-
-                    Resultado do seu desempenho.
-
-                </p>
-
-
-                <div class="botoes-resultado">
-
-
-                    <button
-                        type="button"
-                        onclick="jogarNovamente()"
-                        class="botao-principal">
-
-                        🔄 Jogar novamente
-
-                    </button>
-
-
-                    <button
-                        type="button"
-                        onclick="voltarMenu()"
-                        class="botao-secundario">
-
-                        🏠 Voltar ao menu
-
-                    </button>
-
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </main>
-
-
-
-    <!-- RODAPÉ -->
-    <footer>
-
-        Desenvolvedor: Rayke Jovino de Souza
-
-    </footer>
-
-
-
-    <!-- JAVASCRIPT -->
     <script src="game.js"></script>
 
 </body>
-
 </html>
