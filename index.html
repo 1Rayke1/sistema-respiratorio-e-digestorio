@@ -1,682 +1,381 @@
-/* =========================================================
-   ANATOMIA EM JOGO — STYLE.CSS
-   Desenvolvedor: Rayke Jovino de Souza
-   ========================================================= */
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-:root {
-    --fundo: #0b1220;
-    --fundo-card: #111b2e;
-    --fundo-card-2: #16233a;
-    --texto: #f8fafc;
-    --texto-secundario: #aab7ca;
-    --borda: #263650;
-    --azul: #3b82f6;
-    --azul-hover: #2563eb;
-    --verde: #22c55e;
-    --vermelho: #ef4444;
-    --amarelo: #f59e0b;
-}
-
-html,
-body {
-    width: 100%;
-    min-height: 100%;
-}
-
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: var(--fundo);
-    color: var(--texto);
-    min-height: 100vh;
-    padding-bottom: 70px;
-}
-
-/* =========================================================
-   TELAS
-   ========================================================= */
-
-.tela {
-    display: none;
-    width: 100%;
-    min-height: calc(100vh - 70px);
-}
-
-.tela.ativa {
-    display: block;
-}
-
-/* =========================================================
-   CONTAINER
-   ========================================================= */
-
-.container {
-    width: 100%;
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 30px 20px;
-}
-
-/* =========================================================
-   CABEÇALHO
-   ========================================================= */
-
-.cabecalho {
-    text-align: center;
-    padding: 25px 10px 35px;
-}
-
-.cabecalho h1 {
-    font-size: 38px;
-    line-height: 1.2;
-    margin-bottom: 12px;
-}
-
-.cabecalho p {
-    color: var(--texto-secundario);
-    font-size: 17px;
-}
-
-/* =========================================================
-   SELEÇÃO DE SISTEMAS
-   ========================================================= */
-
-.selecao-sistemas {
-    text-align: center;
-}
-
-.selecao-sistemas h2 {
-    font-size: 25px;
-    margin-bottom: 25px;
-}
-
-.sistemas {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 20px;
-}
-
-.card-sistema {
-    width: 100%;
-    min-height: 230px;
-    border: 1px solid var(--borda);
-    border-radius: 20px;
-    background: var(--fundo-card);
-    color: var(--texto);
-    padding: 30px 20px;
-    cursor: pointer;
-    transition: 0.2s ease;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-}
-
-.card-sistema:hover {
-    transform: translateY(-4px);
-    border-color: var(--azul);
-    background: var(--fundo-card-2);
-}
-
-.card-sistema:active {
-    transform: scale(0.98);
-}
-
-.card-sistema .icone {
-    font-size: 55px;
-}
-
-.card-sistema strong {
-    font-size: 21px;
-}
-
-.card-sistema small {
-    color: var(--texto-secundario);
-    font-size: 14px;
-    line-height: 1.5;
-    max-width: 350px;
-}
-
-/* =========================================================
-   CONFIGURAÇÃO
-   ========================================================= */
-
-.configuracao {
-    position: relative;
-}
-
-.botao-voltar {
-    border: 1px solid var(--borda);
-    background: var(--fundo-card);
-    color: var(--texto);
-    padding: 11px 17px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 15px;
-    margin-bottom: 25px;
-}
-
-.botao-voltar:hover {
-    background: var(--fundo-card-2);
-}
-
-.config-box {
-    width: 100%;
-    max-width: 800px;
-    margin: 30px auto;
-    text-align: center;
-    background: var(--fundo-card);
-    border: 1px solid var(--borda);
-    border-radius: 20px;
-    padding: 35px 25px;
-}
-
-.config-box h2 {
-    font-size: 30px;
-    margin-bottom: 10px;
-}
-
-.config-box > p {
-    color: var(--texto-secundario);
-    margin-bottom: 30px;
-}
-
-.modos {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 15px;
-}
-
-.botao-modo {
-    border: 1px solid var(--borda);
-    background: var(--fundo-card-2);
-    color: var(--texto);
-    border-radius: 15px;
-    padding: 22px 15px;
-    min-height: 170px;
-    cursor: pointer;
-    transition: 0.2s ease;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 9px;
-}
-
-.botao-modo:hover {
-    border-color: var(--azul);
-    transform: translateY(-3px);
-}
-
-.botao-modo span {
-    font-size: 35px;
-}
-
-.botao-modo strong {
-    font-size: 18px;
-}
-
-.botao-modo small {
-    color: var(--texto-secundario);
-    line-height: 1.4;
-}
-
-/* =========================================================
-   TOPO DO JOGO
-   ========================================================= */
-
-.jogo-container {
-    max-width: 1000px;
-}
-
-.topo-jogo {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 15px;
-}
-
-.botao-sair {
-    border: 1px solid var(--borda);
-    background: var(--fundo-card);
-    color: var(--texto);
-    padding: 10px 15px;
-    border-radius: 10px;
-    cursor: pointer;
-}
-
-.botao-sair:hover {
-    background: var(--fundo-card-2);
-}
-
-.contador {
-    text-align: center;
-    font-weight: bold;
-}
-
-.pontuacao {
-    text-align: right;
-    font-weight: bold;
-}
-
-/* =========================================================
-   PROGRESSO
-   ========================================================= */
-
-.barra-progresso {
-    width: 100%;
-    height: 9px;
-    background: #1c2a42;
-    border-radius: 20px;
-    overflow: hidden;
-    margin-bottom: 25px;
-}
-
-.progresso {
-    height: 100%;
-    width: 0%;
-    background: var(--azul);
-    border-radius: 20px;
-    transition: width 0.3s ease;
-}
-
-/* =========================================================
-   PERGUNTA
-   ========================================================= */
-
-.questao {
-    background: var(--fundo-card);
-    border: 1px solid var(--borda);
-    border-radius: 17px;
-    padding: 25px;
-    margin-bottom: 20px;
-}
-
-.pergunta {
-    white-space: pre-line;
-    font-size: 20px;
-    font-weight: bold;
-    line-height: 1.5;
-    text-align: center;
-}
-
-/* =========================================================
-   IMAGEM ANATÔMICA
-   ========================================================= */
-
-.imagem-area {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-}
-
-.imagem-container {
-    width: 100%;
-    max-width: 850px;
-    background: #ffffff;
-    border-radius: 15px;
-    overflow: hidden;
-    border: 2px solid var(--borda);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 180px;
-}
-
-#imagemAnatomica {
-    display: block;
-    width: 100%;
-    height: auto;
-    max-height: 650px;
-    object-fit: contain;
-}
-
-.sem-imagem {
-    display: none;
-    color: #333;
-    padding: 40px 20px;
-    text-align: center;
-}
-
-/* =========================================================
-   ALTERNATIVAS
-   ========================================================= */
-
-.alternativas {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 13px;
-    margin-top: 20px;
-}
-
-.alternativa {
-    width: 100%;
-    min-height: 60px;
-    padding: 14px 16px;
-    border-radius: 12px;
-    border: 1px solid var(--borda);
-    background: var(--fundo-card);
-    color: var(--texto);
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.15s ease;
-}
-
-.alternativa:hover:not(:disabled) {
-    background: var(--fundo-card-2);
-    border-color: var(--azul);
-}
-
-.alternativa:disabled {
-    cursor: default;
-}
-
-.alternativa.correta {
-    background: rgba(34, 197, 94, 0.18);
-    border-color: var(--verde);
-    color: #86efac;
-}
-
-.alternativa.errada {
-    background: rgba(239, 68, 68, 0.18);
-    border-color: var(--vermelho);
-    color: #fca5a5;
-}
-
-/* =========================================================
-   FEEDBACK
-   ========================================================= */
-
-.feedback {
-    min-height: 55px;
-    margin-top: 18px;
-    border-radius: 12px;
-    padding: 15px;
-    text-align: center;
-    font-weight: bold;
-    line-height: 1.5;
-}
-
-.feedback:empty {
-    padding: 0;
-    min-height: 0;
-}
-
-.feedback.correto {
-    background: rgba(34, 197, 94, 0.12);
-    border: 1px solid rgba(34, 197, 94, 0.5);
-    color: #86efac;
-}
-
-.feedback.incorreto {
-    background: rgba(239, 68, 68, 0.12);
-    border: 1px solid rgba(239, 68, 68, 0.5);
-    color: #fca5a5;
-}
-
-/* =========================================================
-   BOTÃO PRÓXIMA QUESTÃO
-   ========================================================= */
-
-.botao-proxima {
-    display: none;
-    width: 100%;
-    margin-top: 15px;
-    padding: 15px 20px;
-    border: none;
-    border-radius: 12px;
-    background: var(--azul);
-    color: white;
-    font-size: 17px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.botao-proxima:hover {
-    background: var(--azul-hover);
-}
-
-.botao-proxima:active {
-    transform: scale(0.99);
-}
-
-/* =========================================================
-   RESULTADO
-   ========================================================= */
-
-.resultado-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: calc(100vh - 120px);
-}
-
-.resultado-box {
-    width: 100%;
-    max-width: 600px;
-    background: var(--fundo-card);
-    border: 1px solid var(--borda);
-    border-radius: 20px;
-    padding: 40px 25px;
-    text-align: center;
-}
-
-.trofeu {
-    font-size: 65px;
-    margin-bottom: 10px;
-}
-
-.resultado-box h2 {
-    font-size: 30px;
-    margin-bottom: 15px;
-}
-
-.porcentagem {
-    font-size: 65px;
-    font-weight: bold;
-    color: var(--azul);
-    margin-bottom: 15px;
-}
-
-.mensagem-resultado {
-    color: var(--texto-secundario);
-    font-size: 17px;
-    line-height: 1.5;
-    margin-bottom: 30px;
-}
-
-.botoes-resultado {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.botao-principal,
-.botao-secundario {
-    width: 100%;
-    border-radius: 12px;
-    padding: 14px 18px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.botao-principal {
-    border: none;
-    background: var(--azul);
-    color: white;
-}
-
-.botao-principal:hover {
-    background: var(--azul-hover);
-}
-
-.botao-secundario {
-    border: 1px solid var(--borda);
-    background: var(--fundo-card-2);
-    color: var(--texto);
-}
-
-.botao-secundario:hover {
-    border-color: var(--azul);
-}
-
-/* =========================================================
-   RODAPÉ
-   ========================================================= */
-
-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    min-height: 55px;
-    background: #080e19;
-    border-top: 1px solid var(--borda);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: var(--texto-secundario);
-    font-size: 13px;
-    text-align: center;
-    padding: 10px;
-    z-index: 100;
-}
-
-/* =========================================================
-   RESPONSIVIDADE — CELULAR
-   ========================================================= */
-
-@media (max-width: 700px) {
-
-    body {
-        padding-bottom: 65px;
-    }
-
-    .container {
-        padding: 20px 14px;
-    }
-
-    .cabecalho {
-        padding: 15px 5px 25px;
-    }
-
-    .cabecalho h1 {
-        font-size: 29px;
-    }
-
-    .cabecalho p {
-        font-size: 14px;
-    }
-
-    .sistemas {
-        grid-template-columns: 1fr;
-    }
-
-    .card-sistema {
-        min-height: 190px;
-    }
-
-    .modos {
-        grid-template-columns: 1fr;
-    }
-
-    .config-box {
-        padding: 25px 15px;
-        margin-top: 15px;
-    }
-
-    .config-box h2 {
-        font-size: 25px;
-    }
-
-    .topo-jogo {
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-    }
-
-    .contador {
-        order: 3;
-        grid-column: 1 / -1;
-    }
-
-    .pontuacao {
-        text-align: right;
-    }
-
-    .questao {
-        padding: 18px 14px;
-    }
-
-    .pergunta {
-        font-size: 17px;
-    }
-
-    .alternativas {
-        grid-template-columns: 1fr;
-    }
-
-    .alternativa {
-        min-height: 58px;
-        font-size: 15px;
-    }
-
-    .imagem-container {
-        border-radius: 10px;
-    }
-
-    #imagemAnatomica {
-        max-height: 500px;
-    }
-
-    .resultado-box {
-        padding: 30px 18px;
-    }
-
-    .porcentagem {
-        font-size: 55px;
-    }
-
-    footer {
-        font-size: 12px;
-    }
-}
-
-/* =========================================================
-   CELULARES MUITO PEQUENOS
-   ========================================================= */
-
-@media (max-width: 380px) {
-
-    .cabecalho h1 {
-        font-size: 25px;
-    }
-
-    .card-sistema .icone {
-        font-size: 45px;
-    }
-
-    .card-sistema strong {
-        font-size: 18px;
-    }
-
-    .pergunta {
-        font-size: 16px;
-    }
-
-    .botao-sair,
-    .botao-voltar {
-        font-size: 13px;
-        padding: 9px 12px;
-    }
-
-}
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Anatomia em Jogo</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- MENU PRINCIPAL -->
+    <main id="menu" class="tela ativa">
+
+        <div class="container">
+
+            <header class="cabecalho">
+                <h1>🫁 Anatomia em Jogo</h1>
+
+                <p>
+                    Estude e teste seus conhecimentos
+                    de Anatomia Humana
+                </p>
+            </header>
+
+
+            <section class="selecao-sistemas">
+
+                <h2>Escolha o sistema</h2>
+
+                <div class="sistemas">
+
+                    <button
+                        type="button"
+                        class="card-sistema"
+                        onclick="selecionarSistema('respiratorio')">
+
+                        <span class="icone">🫁</span>
+
+                        <strong>
+                            Sistema Respiratório
+                        </strong>
+
+                        <small>
+                            Nariz, faringe, laringe,
+                            traqueia, brônquios e pulmões
+                        </small>
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="card-sistema"
+                        onclick="selecionarSistema('digestorio')">
+
+                        <span class="icone">🫃</span>
+
+                        <strong>
+                            Sistema Digestório
+                        </strong>
+
+                        <small>
+                            Boca, faringe, esôfago,
+                            estômago, intestinos e
+                            órgãos acessórios
+                        </small>
+
+                    </button>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+
+    <!-- CONFIGURAÇÃO -->
+    <main id="configuracao" class="tela">
+
+        <div class="container configuracao">
+
+            <button
+                type="button"
+                class="botao-voltar"
+                onclick="voltarMenu()">
+
+                ← Voltar
+
+            </button>
+
+
+            <div class="config-box">
+
+                <h2 id="tituloSistema">
+                    Sistema Respiratório
+                </h2>
+
+                <p>
+                    Escolha como deseja estudar:
+                </p>
+
+
+                <div class="modos">
+
+                    <button
+                        type="button"
+                        class="botao-modo"
+                        onclick="iniciarJogo('estudar')">
+
+                        <span>📚</span>
+
+                        <strong>
+                            Estudar
+                        </strong>
+
+                        <small>
+                            Todas as estruturas do sistema
+                        </small>
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="botao-modo"
+                        onclick="iniciarJogo('treinar')">
+
+                        <span>🎯</span>
+
+                        <strong>
+                            Treinar
+                        </strong>
+
+                        <small>
+                            20 questões aleatórias
+                        </small>
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="botao-modo"
+                        onclick="iniciarJogo('simulado')">
+
+                        <span>🏆</span>
+
+                        <strong>
+                            Simulado
+                        </strong>
+
+                        <small>
+                            Teste seus conhecimentos
+                        </small>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+
+    <!-- JOGO -->
+    <main id="jogo" class="tela">
+
+        <div class="container jogo-container">
+
+
+            <div class="topo-jogo">
+
+                <button
+                    type="button"
+                    class="botao-sair"
+                    onclick="sairJogo()">
+
+                    ✕ Sair
+
+                </button>
+
+
+                <div
+                    id="contador"
+                    class="contador">
+
+                    Questão 1
+
+                </div>
+
+
+                <div
+                    id="pontuacao"
+                    class="pontuacao">
+
+                    Pontuação: 0
+
+                </div>
+
+            </div>
+
+
+
+            <!-- BARRA DE PROGRESSO -->
+            <div class="barra-progresso">
+
+                <div
+                    id="progresso"
+                    class="progresso">
+                </div>
+
+            </div>
+
+
+
+            <!-- PERGUNTA -->
+            <section class="questao">
+
+                <div
+                    id="pergunta"
+                    class="pergunta">
+
+                    Carregando pergunta...
+
+                </div>
+
+            </section>
+
+
+
+            <!-- IMAGEM -->
+            <section class="imagem-area">
+
+                <div class="imagem-container">
+
+                    <img
+                        id="imagemAnatomica"
+                        src=""
+                        alt="Imagem anatômica">
+
+                    <div
+                        id="semImagem"
+                        class="sem-imagem">
+
+                        Imagem não disponível.
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ALTERNATIVAS -->
+            <section
+                id="alternativas"
+                class="alternativas">
+            </section>
+
+
+
+            <!-- FEEDBACK -->
+            <div
+                id="feedback"
+                class="feedback">
+            </div>
+
+
+
+            <!-- PRÓXIMA QUESTÃO -->
+            <button
+                type="button"
+                id="proxima"
+                class="botao-proxima"
+                onclick="proximaQuestao()">
+
+                Próxima questão
+
+            </button>
+
+        </div>
+
+    </main>
+
+
+
+    <!-- RESULTADO -->
+    <main id="resultado" class="tela">
+
+        <div class="container resultado-container">
+
+            <div class="resultado-box">
+
+
+                <div class="trofeu">
+                    🏆
+                </div>
+
+
+                <h2>
+                    Resultado
+                </h2>
+
+
+                <div
+                    id="porcentagem"
+                    class="porcentagem">
+
+                    0%
+
+                </div>
+
+
+                <p
+                    id="mensagemResultado"
+                    class="mensagem-resultado">
+
+                    Resultado do seu desempenho.
+
+                </p>
+
+
+                <div class="botoes-resultado">
+
+
+                    <button
+                        type="button"
+                        onclick="jogarNovamente()"
+                        class="botao-principal">
+
+                        🔄 Jogar novamente
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        onclick="voltarMenu()"
+                        class="botao-secundario">
+
+                        🏠 Voltar ao menu
+
+                    </button>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+
+    <!-- RODAPÉ -->
+    <footer>
+
+        Desenvolvedor: Rayke Jovino de Souza
+
+    </footer>
+
+
+
+    <!-- JAVASCRIPT -->
+    <script src="game.js"></script>
+
+</body>
+
+</html>
